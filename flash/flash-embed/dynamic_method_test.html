@@ -10,9 +10,9 @@
         </script>
         <script src="../flash-ua/flash-ua.js">
         </script>
-        <script src="../dom-flash.js">
+        <script src="../kissy-flash.js">
         </script>
-        <script src="flash-embed.js">
+        <script src="flash-embed-min.js">
         </script>
 		
 		<div id="myFlashContent">
@@ -30,7 +30,7 @@
 		</div>
 		
 		<script>
-			var version = "10.1.0"
+			var version = "10.0.0"
 			var flashvars ={};
 			flashvars.name = "q";
 			flashvars.vd = "dddq";
@@ -40,7 +40,7 @@
 			params.wmode = "opaque";
 			params.menu = "false";
 			var attrs ={};
-			KISSY.Flash.embed("myFlashContent","test.swf",215,138,version,params,flashvars,attrs,"express-install/expressInstall.swf");
+			KISSY.Flash.embed("myFlashContent","test.swf",215,138,version,params,flashvars,attrs,"express-install/expressInstall.swf",callback);
 			KISSY.Flash.embed("myFlashContent2","test.swf",800,600);
 			
 			function callback(o){

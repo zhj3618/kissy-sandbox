@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title></title>
+	</head>
+	<body>
+		 <h2>AJBridage test</h2>
+		
+		<script src="../ks-core.js">
+        </script>
+        <script src="../flash-ua/flash-ua.js">
+        </script>
+        <script src="../kissy-flash.js">
+        </script>
+        <script src="../flash-embed/flash-embed.js">
+        </script>
+		<script src="kissy-ajbridge.js"></script>
+		
+		
+		<div id="myFlashContent">
+			 <a href="http://www.adobe.com/go/getflashplayer"> 
+	         <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /> 
+	         </a> 
+		</div>
+		
+		<script>
+			var S = KISSY,
+				F = KISSY.Flash,
+				A = KISSY.AJBridge;
+				config = {
+					dynamic:true,
+					src:"ajbridge.swf",
+					params:{
+							bgcolor:"#C4C4C4"
+						},
+					flashvars:{
+						key:"value",
+						json:{
+							url:"http://YOURDOMAIN.com/entry?t=2&c=3",
+							obj:{
+								num:1,
+								booolean:true,
+								arr:[1,"2",true,"http://www.adobe.com/"]
+							}
+						}
+					},
+					width:400,
+					height:300,
+					id:"myFlashContent"
+				},
+				
+				a = new A(config);
+				
+				a.on("init",function(ev){
+					alert(ev.type);
+					alert("SWF:"+ev.target.ref);
+				});
+				a.on("addCallback",function(ev){
+					alert(ev.type);
+				});
+				a.on("addCallbacks",function(ev){
+					alert(ev.type);
+				});
+				a.on("swfReady",function(ev){
+					alert(ev.type);
+				});
+				
+				//event type see: http://code.google.com/p/kissy/wiki/AboutAJBridge_CN#公开的事件类型
+				
+				
+			
+			//console.log(a);
+			
+		</script>
+	</body>
+</html>

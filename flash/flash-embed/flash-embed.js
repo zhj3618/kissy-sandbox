@@ -64,7 +64,7 @@ KISSY.add('flash-embed', function(S) {
 		/**
 		 * 与 KISSY.UA.FPV相同
 		 */
-		version:function (){
+		fpv:function (){
 			return UA.fpv;
 		},
 		length:function(){
@@ -209,27 +209,43 @@ KISSY.add('flash-embed', function(S) {
 		},
 		_embed:function (el,swfurl,width,height,ver,params,flashvars,attrs,xi,callback){
 			var self =this,
-				uid = prefix + S.now(),
 				result = {},
 				swf,
 				id = el,
 				hasFPV= hasFlashPlayerVersion(ver);
 			//替换元素一定要存在，且有ID
-			if(!el && !S.isString(el))return;
-			if(!swfurl && !S.isString(swfurl))return;
+			
+			if(!el && !S.isString(el)){
+				result.success = SWF_NO_CONTAINER;
+				S.mix(result,ret,false);
+				callback && callback(result);
+				return;
+			}
+			if (!swfurl && !S.isString(swfurl)) {
+				result.success = SWF_NOT_EXIST;
+				S.mix(result,ret,false);
+				callback && callback(result);
+				return;
+			}
 			
 			attrs = attrs || {};
-			attrs.id = el|| uid;
+			attrs.id = el;
 			attrs.width = width || 800;
 			attrs.height = height || 600;
 			
 			S.mix(attrs,html_attributes,false);
 			
 			params = params || {};
+			
+			
+			
 			params.flashvars = S.isEmptyObject(flashvars)?null:flashvars;
 			S.mix(params,fp_params,false);
 			
+			
+			
 			swf = self._getSWF(swfurl,attrs,params);
+			
 			
 			
 			if(hasFPV == -1){
@@ -258,7 +274,7 @@ KISSY.add('flash-embed', function(S) {
 								swf = self._getSWF(xi,attrs,params);
 								if(UA.ie){
 									el.outerHTML = swf.innerHTML;
-									swf = DOM.get("#"+id); 
+									//swf = DOM.get("#"+id); 
 								}else{
 									el.parentNode.replaceChild(swf,el);
 								}
@@ -297,7 +313,7 @@ KISSY.add('flash-embed', function(S) {
 				attr,
 				p,
 				isEmptyObject = true,
-				vars = "",
+				vars,
 				so = document.createElement('object');
 			for (attr in html_attributes) {
               attr = attr.toLowerCase();
@@ -316,24 +332,38 @@ KISSY.add('flash-embed', function(S) {
 				so.setAttribute('name',attrs.id);	
 			}
 			
+			
+			
 			for (param in fp_params) {
              	 param = param.toLowerCase();
 				  if(params[param]==null || params[param]=="" )continue;
 				 switch(param){
 				 	case "flashvars":
 						flashvars = params[param];
+						
 						for (flashvar in flashvars) {
 							if (flashvars[flashvar] !== null && flashvars[flashvar]!="") {
-								vars += flashvar +'='+(typeof flashvars[flashvar] == 'object' ? asString(flashvars[flashvar]) : encodeURIComponent(flashvars[flashvar])) + '&';
+								
+								if(!vars){
+									vars = "";
+								}else{
+									vars += "&";
+								}
+								
+								vars += flashvar +'='+(typeof flashvars[flashvar] == 'object' ? asString(flashvars[flashvar]) : encodeURIComponent(flashvars[flashvar])) ;
+								
 							}
 						}
+					
 					break;
 					default:
 						vars = params[param];
 				 }
 				//so.innerHTML += "<param name='"+param +"' value='"+vars+"'/>";
+				
 				so.appendChild(getParam(param,vars));
             }
+			
 			
 			if(UA.ie)so=p; //hack for ie 
 			
@@ -392,18 +422,23 @@ KISSY.add('flash-embed', function(S) {
 		return e;
 	}
 
-	
+	/**
+	 * 类似 JSON.toStriong()
+	 * @param {Object} obj
+	 */
 	function asString(obj){
+		var a = [];
 		switch (typeOf(obj)){
 			case 'string':
 				obj = obj.replace(new RegExp('(["\\\\])', 'g'), '\\$1');
 				
-				return  encodeURIComponent('"' +obj+ '"');
+				return  '"' +encodeURIComponent(obj)+ '"';
 				
 			case 'array':
-				return '['+ map(obj, function(el) {
-					return asString(el);
-				}).join(',') +']'; 
+				S.each(obj, function(el) {
+					a.push(asString(el));
+				})
+				return '['+ a.join(',') +']'; 
 			case 'function':
 				return '"function()"';
 			case 'object':
@@ -442,3 +477,12 @@ KISSY.add('flash-embed', function(S) {
 
 	
 });
+
+
+
+/**
+ * NOTEs:
+ * 		> 2010/07/21	向google code 提交了基础代码
+ * 		> 2010/07/22	修正了 embed 始终都有 callback 尝试性调用。
+ * 						避免了未定义 el/id 或 swfurl 时无法获知错误。
+ */
