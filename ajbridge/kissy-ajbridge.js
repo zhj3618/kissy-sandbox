@@ -10,21 +10,20 @@ KISSY.add('ajbridge', function(S) {
 		ALWAY_ALLOW_SCRIPT_ACCESS= "always",
 		EVENT_HANDLER = 'KISSY.AJBridge.eventHandler',
 		defaultConfig = {
+//			id:null,
+//			params:null,
+//			flashvars:null,
+//			attribs:null,
+//			xi:null,
 			dynamic:true,
-			ver:"9.0.0",
-			id:null,
-			params:null,
-			flashvars:null,
-			attrs:null,
-			xi:null
+			version:9
 		};
 	
 	// 创建纯 的命名空间 ajb
 	S.namespace("ajb");
 	
-	function AJBridge(config){
+	function AJBridge(id,config){
 		var self = this,
-			id = (config||{}).id,
 			params,
 			flashvars,
 			callback = function(r){
@@ -33,37 +32,42 @@ KISSY.add('ajbridge', function(S) {
 		
 		if(!id)return;	
 		
+		
 		AJBridge.instances[id] = self;	
 		
-		config = S.merge(defaultConfig,config);
+		config = S.merge(defaultConfig,(config||{}));
 		if(config.dynamic){
-			params = config.params || {};
+			config.params = config.params || {};
 			//	强制打开 JS 访问授权 
-			params.allowscriptaccess = ALWAY_ALLOW_SCRIPT_ACCESS;
-			//	配置 AJB 基本通信
-			flashvars = config.flashvars ||{};
-			flashvars.jsEntry = EVENT_HANDLER;
-			flashvars.swfID = id;
+			config.params.allowscriptaccess = ALWAY_ALLOW_SCRIPT_ACCESS;
 			
-			Flash.embed(id,
-						config.src,
-						config.width,
-						config.height,
-						config.ver,
-						params,
-						flashvars,
-						config.attrs,
-						config.xi,
-						callback
-						);
+			config.flashvars = config.flashvars ||{};
+			
+			//	 AJBridge基本配置 
+			config.flashvars.jsEntry = EVENT_HANDLER;
+			config.flashvars.swfID = id;
+			
+			Flash.add(id,config,callback);
+			
+//			Flash.embed(id,
+//						config.src,
+//						config.width,
+//						config.height,
+//						config.ver,
+//						params,
+//						flashvars,
+//						config.attrs,
+//						config.xi,
+//						callback
+//						);
 		}else{
 			//TODO: 暂时不支持静态注册.AJB的swf将在下一个版本增加 "静态发布SWF,动态初始化AJBridge"  2010/7/22
-			Flash.register( config.id,
-							config.ver,
-							config.xi,
-							callback
-						
-			);
+//			Flash.register( config.id,
+//							config.ver,
+//							config.xi,
+//							callback
+//						
+//			);
 		}
 	}
 	
@@ -110,8 +114,7 @@ KISSY.add('ajbridge', function(S) {
 	}
 	
 	
-	S.augment(AJBridge, S.EventTarget);
-	S.augment(AJBridge, {
+	S.augment(AJBridge, S.EventTarget, {
 
         _eventHandler: function(event) {
             var self = this,

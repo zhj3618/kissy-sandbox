@@ -19,7 +19,7 @@
 		<script src="../kissy-ajbridge/kissy-ajbridge.js"></script>
 		
 		
-		<script src="ajb-stroe.js"></script>
+		<script src="ajb-store.js"></script>
 		
 		<div id="myFlashContent">
 			 <a href="http://www.adobe.com/go/getflashplayer"> 
@@ -41,13 +41,13 @@
 				AJB = S.ajb,
 				SWFStore = AJB.Store,
 				config ={
-					id:"myFlashContent",
 					src:"swfstore.swf",
 					params:{
 						bgcolor:"#CCCCCC"
 					}
 				},
-				store = new SWFStore(config);
+				id="myFlashContent",
+				store = new SWFStore(id,config);
 			
 			
 				store.on("init",function(ev){

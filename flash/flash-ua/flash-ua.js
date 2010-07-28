@@ -11,8 +11,8 @@ KISSY.add("flash-ua",function(S) {
 	
 	function getFlashVersion(){
 		// 获得版本号。
-		// 格式:  [主版本号,次版本号,修正版本号] [Major,Minor,Revision]
-		// 返回：数组或 -1。
+		// 返回：数字。
+		// 格式:  主版本号.次版本号(小数点后3位，占3位)修正版本号(小数点后第4至第8位,占五位)
 		// 若未安装  则返回 -1
 				
 		var UNINSTALLED = -1,												//未安装返回值
@@ -36,8 +36,43 @@ KISSY.add("flash-ua",function(S) {
 			}
         }
 		
-		return !!ver ? ver.replace(/\D+/g, SPACE_STRING).match(/(\d)+/g).slice(0,3) : UNINSTALLED;
+		if(!ver)return UNINSTALLED;
+		
+		ver = numerify(ver.replace(/\D+/g, SPACE_STRING).match(/(\d)+/g).slice(0,3));
+		
+		
+		
+		return parseFloat(ver);
 	}
+	
+	function numerify(arr) {
+		////	不用for补0是节省部分开销
+        var ret = arr[0] + '.';
+		switch (arr[1].toString().length) {
+            case 1:
+                ret += '00';
+                break;
+            case 2:
+                ret += '0';
+                break;
+        }
+		ret += arr[1];
+        switch (arr[2].toString().length) {
+            case 1:
+                ret += '0000';
+                break;
+            case 2:
+                ret += '000';
+                break;
+			case 3:
+	            ret += '00';
+	            break;
+			case 4:
+                ret += '0';
+                break;
+        }
+        return (ret += arr[2]);
+    }
 	
 	
 	//// 注册到 kissy-ua中   fpv 全称是  flash player version
@@ -70,5 +105,7 @@ KISSY.add("flash-ua",function(S) {
 		
 		-	getFlashVersion 函数中，存在 new ActiveX 和 try catch, 比较耗费性能，需要进一步测试和优化。
 		
+ 		
  					
+ 		>			
  */

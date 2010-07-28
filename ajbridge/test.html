@@ -46,11 +46,10 @@
 						}
 					},
 					width:400,
-					height:300,
-					id:"myFlashContent"
+					height:300
 				},
-				
-				a = new A(config);
+				id="myFlashContent",
+				a = new A(id,config);
 				
 				a.on("init",function(ev){
 					alert(ev.type);
