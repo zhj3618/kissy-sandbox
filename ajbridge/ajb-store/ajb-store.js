@@ -10,14 +10,19 @@ KISSY.add("ajb-store",function(S){
 	S.namespace("ajb.Store");
 	/**
 	 * 本地存储类
-	 * @param {Object} flashConfig
-	 * @param {Boolean} useCompression
-	 * @param {Boolean} baseOnBrowser
+	 * @param {String} id
+	 * @param {Object} config
+	 * @param {Boolean} config.useCompression
+	 * @param {Boolean} config.baseOnBrowser
 	 */
-	function Store(flashConfig,useCompression,baseOnBrowser){
-		if(!flashConfig)return;
-		
-		var flashvars={};
+	function Store(id,config){
+		var flashvars={},
+			useCompression,
+			baseOnBrowser;
+			
+		config = config||{};
+		useCompression = config.useCompression;
+		baseOnBrowser = config.baseOnBrowser;
 		
 		if(baseOnBrowser !== undefined){
 			if (UA.ie) flashvars.browser = 'ie';
@@ -28,9 +33,10 @@ KISSY.add("ajb-store",function(S){
 		//// Boolean.toString()
 		flashvars.useCompression = (useCompression !== undefined ? useCompression : true) + '';
 		
-		flashConfig.flashvars = S.merge(flashConfig.flashvars,flashvars);
+		config.flashvars = S.merge((config.flashvars||{}),flashvars);
 		
-		Store.superclass.constructor.call(this, flashConfig);
+		
+		Store.superclass.constructor.call(this, id,config);
 	}
 	
 	S.extend(Store,AJB);	////	继承自 AJBridge

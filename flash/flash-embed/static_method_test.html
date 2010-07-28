@@ -18,7 +18,7 @@
 <script src="../kissy-flash.js"></script>
 
 
-<script src="flash-embed-min.js"></script>
+<script src="flash-embed.js"></script>
 
 
 
@@ -62,27 +62,28 @@
 
 <script>
 	
+	var S = KISSY,
+		F = S.Flash;
 	
-	KISSY.Flash.register("myFlashContent","10.1.0",null,callback);
-	//KISSY.Flash.register("myFlashContent");
-	KISSY.Flash.register("myFlashContent2");
-	//KISSY.Flash.register("myFlashContent");
 	
-	KISSY.ready(function(S){
-		alert(KISSY.Flash.get("myFlashContent"));
-		alert(KISSY.Flash.get("myFlashContent2"));
-		alert(KISSY.Flash.length());
-		alert(KISSY.Flash.remove("myFlashContent2"));
-		alert(KISSY.Flash.length());
+	F.add("myFlashContent",{version:"10.0.0"},callback);
+	//F.register("myFlashContent");
+	F.add("myFlashContent2",{version:"10.1.0"},callback);
+	//F.register("myFlashContent");
+	
+	
+	S.ready(function(S){
+		alert("DOM READY");
 	});
 	
 	
-	//KISSY.Flash.remove("myFlashContent2");
+	//F.remove("myFlashContent2");
 	
 	function callback(o){
-		alert("callback:"+o.success+":"+o.id);
+		alert("CALLBACK:"+o.success+":"+o.id);
 		//if(o.success==0)KISSY.DOM.remove(o.ref);
-		
+		alert("KISSY.FLASH NUMBER:"+F.getLength());
+		alert("FLASHPLAYERVERSION :"+F.getFPV());
 	}
 	
 	

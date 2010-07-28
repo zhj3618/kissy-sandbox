@@ -12,7 +12,7 @@
         </script>
         <script src="../kissy-flash.js">
         </script>
-        <script src="flash-embed-min.js">
+        <script src="flash-embed.js">
         </script>
 		
 		<div id="myFlashContent">
@@ -30,6 +30,8 @@
 		</div>
 		
 		<script>
+			var S = KISSY,
+				F = S.Flash;
 			var version = "10.0.0"
 			var flashvars ={};
 			flashvars.name = "q";
@@ -39,12 +41,29 @@
 			var params = {};
 			params.wmode = "opaque";
 			params.menu = "false";
-			var attrs ={};
-			KISSY.Flash.embed("myFlashContent","test.swf",215,138,version,params,flashvars,attrs,"express-install/expressInstall.swf",callback);
-			KISSY.Flash.embed("myFlashContent2","test.swf",800,600);
+			var attribs ={};
+			attribs.width = 400;
+			attribs.height = 300;
+			
+			var config = {};
+			
+			config.src = "test.swf";
+			config.xi = "express-install/expressInstall.swf";
+			config.flashvars = flashvars;
+			config.vd = "ddd";
+			config.params = params;
+			config.attribs = attribs;
+			
+			config.version = 10;
+			F.add("myFlashContent",config,callback);
+			
+			config.attribs = {width:600,height:400};
+			config.version = "10.1";
+			F.add("myFlashContent2",config,callback);
 			
 			function callback(o){
-				alert("callback:"+o.success+":"+o.id);
+//				console.log(F);
+				alert("CALLBACK:"+o.success+":"+o.id);
 				//if(o.success==0)KISSY.DOM.remove(o.ref);
 			}
 			
