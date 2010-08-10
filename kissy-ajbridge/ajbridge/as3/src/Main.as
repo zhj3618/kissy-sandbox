@@ -3,6 +3,7 @@
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.external.ExternalInterface;
+	import flash.system.Security;
 	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
@@ -20,7 +21,7 @@
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
 			
-			
+			Security.allowDomain( "*" );
 			var callbacks: Object = {
 										onSend:onSend
 									};
@@ -28,6 +29,7 @@
 			AJBridge.init(stage);
 			AJBridge.addCallbacks(callbacks);
 			AJBridge.ready();
+			
 		}
 		
 		private function onSend(...args):void{

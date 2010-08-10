@@ -1,0 +1,7 @@
+封装了AS和JS通信的包
+上KISSY的子项目。
+由早期的AJBridge迁移。
+借鉴了以下库、包的特性创建而成 ：
+SWFOject		http://code.google.com/p/swfobject/
+Flashembed		http://flowplayer.org/tools/toolbox/flashembed.html
+YUI2.swf		http://github.com/yui/yui2/blob/master/src/swf/js/swf.js

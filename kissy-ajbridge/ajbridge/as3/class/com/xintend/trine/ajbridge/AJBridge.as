@@ -39,9 +39,10 @@ package com.xintend.trine.ajbridge {
 				FlashConnect.atrace("com.xintend.trine.ajbridge",e,e.message,e.name,e.errorID);
 			}
 			
-			
-			
 			sendEvent(new AJBridgeEvent("init"));
+			
+			
+			addCallback("activate",activate);
 		}
 		
 		
@@ -50,15 +51,13 @@ package com.xintend.trine.ajbridge {
 				if (ExternalInterface.available) {
 					ExternalInterface.addCallback(name, func);
 					sendEvent(new AJBridgeEvent("addCallback"));
+				}else {
+					FlashConnect.atrace("com.xintend.trine.ajbridge.addCallback","ExternalInterface:disable");
 				}
 			}catch (e: Error) {
 				FlashConnect.atrace("com.xintend.trine.ajbridge",e,e.message,e.name,e.errorID);
 			}
 			
-		}
-		
-		static public function  ready(): void {
-			sendEvent(new AJBridgeEvent("swfReady"));
 		}
 		
 		static public function addCallbacks(callbacks: Object) : void {
@@ -71,12 +70,17 @@ package com.xintend.trine.ajbridge {
 						ExternalInterface.addCallback(callback, func);
 					}
 					sendEvent(new AJBridgeEvent("addCallbacks"));
+				}else {
+					FlashConnect.atrace("com.xintend.trine.ajbridge.addCallbacks","ExternalInterface:disable");
 				}
 			}catch (e: Error) {
 				FlashConnect.atrace("com.xintend.trine.ajbridge",e,e.message,e.name,e.errorID);
 			}
 		}
 		
+		static public function  ready(): void {
+			sendEvent(new AJBridgeEvent("swfReady"));
+		}
 		
 		static public function sendEvent(evt: Object): void {
 			
@@ -100,6 +104,15 @@ package com.xintend.trine.ajbridge {
 				FlashConnect.atrace("com.xintend.trine.ajbridge",e,e.message,e.name,e.errorID);
 			}
 		}
+		
+		
+		static private function activate(config: Object = null): void {
+				if (config) {
+					jsEntry = config.jsEntry || jsEntry;
+					swfID = config.swfID || swfID;
+				}
+				ready();
+			} 
 		
 		
 		private static const JS_ENTRY_KEY: String = "jsEntry";
