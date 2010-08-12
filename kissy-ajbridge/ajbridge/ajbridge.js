@@ -8,6 +8,7 @@ KISSY.add('ajbridge', function(S) {
 	
 	
 	var Flash = S.Flash,
+		VERSION = "1.0.10"
 		ALWAY_ALLOW_SCRIPT_ACCESS= "always",
 		EVENT_HANDLER = 'KISSY.AJBridge.eventHandler';			//	Flash 事件抛出接受通道 
 	
@@ -85,8 +86,8 @@ KISSY.add('ajbridge', function(S) {
 	 * 处理来自 AJBridge 已定义的事件
 	 * @param {Object} event
 	 */
-	 AJBridge.eventHandler = function(event) {
-	 	AJBridge.instances[event.id]._eventHandler(event);
+	 AJBridge.eventHandler = function(id,event) {
+	 	AJBridge.instances[id]._eventHandler(id,event);
     };
 	/**
 	 * 批量注册 SWF 公开的方法
@@ -122,13 +123,15 @@ KISSY.add('ajbridge', function(S) {
 	
 	
 	S.augment(AJBridge, S.EventTarget, {
+		version:VERSION,
 		init:function(){
 			var self = this;
 			Flash.add.apply(Flash,self.args);
 		},
-        _eventHandler: function(event) {
+        _eventHandler: function(id,event) {
             var self = this,
                 type = event.type;
+			event.id = id;
             if (type === 'log') {
                 S.log(event.message);
             } else if (type) {
@@ -176,5 +179,6 @@ KISSY.add('ajbridge', function(S) {
  * 2010/08/08		由于KISSY.Flash重构，因此AJBridge也进行了改动。	
  * 2010/08/09		AJBridge的 AS3 新增了 静态的动态激活。因此 内部增加了activete()的方法。
  * 2010/08/10		向 sandbox 提交了代码
+ * 2010/08/11		将 eventHandler(event) 转为  eventHandler(id,event).  版本号 1.0.10
  * 
  */

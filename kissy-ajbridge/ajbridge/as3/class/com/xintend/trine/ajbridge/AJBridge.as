@@ -39,7 +39,7 @@ package com.xintend.trine.ajbridge {
 				FlashConnect.atrace("com.xintend.trine.ajbridge",e,e.message,e.name,e.errorID);
 			}
 			
-			sendEvent(new AJBridgeEvent("init"));
+			sendEvent({type:"init"});
 			
 			
 			addCallback("activate",activate);
@@ -50,7 +50,7 @@ package com.xintend.trine.ajbridge {
 			try {
 				if (ExternalInterface.available) {
 					ExternalInterface.addCallback(name, func);
-					sendEvent(new AJBridgeEvent("addCallback"));
+					sendEvent({type:"addCallback"});
 				}else {
 					FlashConnect.atrace("com.xintend.trine.ajbridge.addCallback","ExternalInterface:disable");
 				}
@@ -69,7 +69,7 @@ package com.xintend.trine.ajbridge {
 						if (func == null) continue;
 						ExternalInterface.addCallback(callback, func);
 					}
-					sendEvent(new AJBridgeEvent("addCallbacks"));
+					sendEvent({type:"addCallbacks"});
 				}else {
 					FlashConnect.atrace("com.xintend.trine.ajbridge.addCallbacks","ExternalInterface:disable");
 				}
@@ -79,7 +79,7 @@ package com.xintend.trine.ajbridge {
 		}
 		
 		static public function  ready(): void {
-			sendEvent(new AJBridgeEvent("swfReady"));
+			sendEvent({type:"swfReady"});
 		}
 		
 		static public function sendEvent(evt: Object): void {
@@ -90,15 +90,13 @@ package com.xintend.trine.ajbridge {
 			}
 			////	对象深拷贝
 			////	不适合显示对象
-			var r: ByteArray = new ByteArray();
-			r.writeObject(evt);
-			r.position = 0;
-			evt = r.readObject();
+			//var r: ByteArray = new ByteArray();
+			//r.writeObject(evt);
+			//r.position = 0;
+			//evt = r.readObject();
 			try {
 				if (ExternalInterface.available) {
-					trace("AJBridge Sending event :" + evt.type);
-					evt.id = swfID;
-					ExternalInterface.call(jsEntry,evt);
+					ExternalInterface.call(jsEntry,swfID,evt);
 				}
 			}catch (e: Error) {
 				FlashConnect.atrace("com.xintend.trine.ajbridge",e,e.message,e.name,e.errorID);
