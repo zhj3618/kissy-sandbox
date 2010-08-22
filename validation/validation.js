@@ -13,86 +13,86 @@ KISSY.add("validator", function(S) {
         EVENT_VALIDATE        = "validate" ,
         defaultConfig = {            
             /**
-             * ÊÇ·ñÔÚ±íµ¥Ìá½»Ê±ÑéÖ¤
+             * æ˜¯å¦åœ¨è¡¨å•æäº¤æ—¶éªŒè¯
              * @type {Boolean}
              */
             onSubmit: true,
             
             /**
-             * ÑéÖ¤Ç°×îºóÒ»¸ö»ñÈ¡½¹µãµÄÔªËØ»òµÚÒ»¸öÑéÖ¤Ê§°ÜµÄÔªËØ×Ô¶¯»ñÈ¡½¹µã
+             * éªŒè¯å‰æœ€åä¸€ä¸ªè·å–ç„¦ç‚¹çš„å…ƒç´ æˆ–ç¬¬ä¸€ä¸ªéªŒè¯å¤±è´¥çš„å…ƒç´ è‡ªåŠ¨è·å–ç„¦ç‚¹
              * @type {Boolean}
              */
             autoFocus: true,
             
             /**
-             * ÔÚÔªËØ»ñÈ¡½¹µãÊ±ÊÇ·ñÒş²ØÑéÖ¤ĞÅÏ¢
-             * ×¢£º²»ÄÜÓëautoFocus²ÎÊıÍ¬Ê±Ê¹ÓÃ£¬·ñÔòÎŞĞ§
+             * åœ¨å…ƒç´ è·å–ç„¦ç‚¹æ—¶æ˜¯å¦éšè—éªŒè¯ä¿¡æ¯
+             * æ³¨ï¼šä¸èƒ½ä¸autoFocuså‚æ•°åŒæ—¶ä½¿ç”¨ï¼Œå¦åˆ™æ— æ•ˆ
              * @type {Boolen}
              */
             focusCleanup: false,
             
             /**
-             * ÊÇ·ñÎªÀÁÑéÖ¤Ä£Ê½£¬ÀÁÑéÖ¤Ä£Ê½ÏÂ£¬µ±ÔªËØÖµ¸Ä±äºó²»»á´¥·¢ÑéÖ¤
+             * æ˜¯å¦ä¸ºæ‡’éªŒè¯æ¨¡å¼ï¼Œæ‡’éªŒè¯æ¨¡å¼ä¸‹ï¼Œå½“å…ƒç´ å€¼æ”¹å˜åä¸ä¼šè§¦å‘éªŒè¯
              * @type {Boolean}
              */
             isLazy: false,
             
             /**
-             * ºöÂÔÁĞ±í£¬ºöÂÔÁĞ±íÖĞµÄÔªËØ½«Ìø¹ıÑéÖ¤
+             * å¿½ç•¥åˆ—è¡¨ï¼Œå¿½ç•¥åˆ—è¡¨ä¸­çš„å…ƒç´ å°†è·³è¿‡éªŒè¯
              * @type {Array}
              */
             ignoreList: [],
             
             /**
-             * ÔªËØÑéÖ¤Í¨¹ıºóµÄÑùÊ½±ê¼Ç
+             * å…ƒç´ éªŒè¯é€šè¿‡åçš„æ ·å¼æ ‡è®°
              * @type {String}
              */
             validClass: "valid",
             
             /**
-             * ÔªËØÑéÖ¤²»Í¨¹ıºóµÄÑùÊ½±ê¼Ç
+             * å…ƒç´ éªŒè¯ä¸é€šè¿‡åçš„æ ·å¼æ ‡è®°
              * @type {String}
              */
             invalidClass: "invalid",
             
             /**
-             * ÌáÊ¾ĞÅÏ¢ÔªËØ
+             * æç¤ºä¿¡æ¯å…ƒç´ 
              * @type {String}
              */
             messageElement: "LABEL",
             
             /**
-             * ÌáÊ¾ĞÅÏ¢ÔªËØÍâÔÙ°ü¹üÒ»²ãÔªËØ
+             * æç¤ºä¿¡æ¯å…ƒç´ å¤–å†åŒ…è£¹ä¸€å±‚å…ƒç´ 
              * @type {String}
              */
             messageWrapper: null,
             
             /**
-             * ½«ÌáÊ¾ĞÅÏ¢ÔªËØ·ÅÔÚÒ»¸öÇøÓò¼¯ÖĞÏÔÊ¾
+             * å°†æç¤ºä¿¡æ¯å…ƒç´ æ”¾åœ¨ä¸€ä¸ªåŒºåŸŸé›†ä¸­æ˜¾ç¤º
              * @type {String}
              */
             messageContainer: null,
             
             /**
-             * Ä¬ÈÏ´íÎóĞÅÏ¢
-             * µ±ÑéÖ¤¹æ¸ñÃ»ÓĞ¶ÔÓ¦µÄ´íÎó·´À¡ĞÅÏ¢Ê±£¬½«ÏÔÊ¾ÕâÌõĞÅÏ¢¡£
+             * é»˜è®¤é”™è¯¯ä¿¡æ¯
+             * å½“éªŒè¯è§„æ ¼æ²¡æœ‰å¯¹åº”çš„é”™è¯¯åé¦ˆä¿¡æ¯æ—¶ï¼Œå°†æ˜¾ç¤ºè¿™æ¡ä¿¡æ¯ã€‚
              */
-            defaultErrorMessage: "ÄÚÈİ¸ñÊ½²»ÕıÈ·£¡",
+            defaultErrorMessage: "å†…å®¹æ ¼å¼ä¸æ­£ç¡®ï¼",
         
             /**
-             * ÑéÖ¤¹æÔò
+             * éªŒè¯è§„åˆ™
              * @type {Object}
              */
             rules: {},
             
             /**
-             * ÑéÖ¤º¯Êı
+             * éªŒè¯å‡½æ•°
              * @type {Object}
              */
             methods: {}, 
                 
             /**
-             * Ä¬ÈÏÌáÊ¾ĞÅÏ¢
+             * é»˜è®¤æç¤ºä¿¡æ¯
              * @type {Object}
              */
             messages: {}
@@ -122,7 +122,7 @@ KISSY.add("validator", function(S) {
     S.mix(Validator.prototype, {
 
         /**
-         * ³õÊ¼»¯
+         * åˆå§‹åŒ–
          * @private
          */
         _init: function() {            
@@ -141,7 +141,7 @@ KISSY.add("validator", function(S) {
                     var target = e.target ;
                     if(clickType[target.type] && target.name && !target.disabled && self.submitted[target.name]) {
                         /**
-                         * ¶ÔcheckboxºÍradio×öÌØÊâ´¦Àí£¬»ñÈ¡Í¬nameµÄµÚÒ»¸öÔªËØ
+                         * å¯¹checkboxå’Œradioåšç‰¹æ®Šå¤„ç†ï¼Œè·å–åŒnameçš„ç¬¬ä¸€ä¸ªå…ƒç´ 
                          */
                         if(S.Validator.checkable(target)){
                             target = self._findByName(target.name)[0];
@@ -181,9 +181,9 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * Ö´ĞĞÑéÖ¤
+         * æ‰§è¡ŒéªŒè¯
          * @param {Selector | HTMLElement} elements (optional) 
-         * ÒªÑéÖ¤µÄÔªËØ£¬²»Ö¸¶¨¾ÍÑéÖ¤ËùÓĞÔªËØ
+         * è¦éªŒè¯çš„å…ƒç´ ï¼Œä¸æŒ‡å®šå°±éªŒè¯æ‰€æœ‰å…ƒç´ 
          */
         validate: function(elements){          
             var self = this ;
@@ -199,7 +199,7 @@ KISSY.add("validator", function(S) {
                 elements = self._getElemts();
             }
             /**
-             * ¶ÔÃ¿¸öĞèÒªÑéÖ¤µÄÔªËØ½øĞĞÑéÖ¤
+             * å¯¹æ¯ä¸ªéœ€è¦éªŒè¯çš„å…ƒç´ è¿›è¡ŒéªŒè¯
              */
             for(var i = 0, n = elements.length; i < n; i++) {
                 self.submitted[elements[i].name] = true ;
@@ -228,7 +228,7 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * ÖØÖÃÑéÖ¤×é¼ş
+         * é‡ç½®éªŒè¯ç»„ä»¶
          */
         reset: function(){ 
             this.successList = [];
@@ -236,7 +236,7 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * »ñÈ¡´íÎó¶ÔÏóÁĞ±í
+         * è·å–é”™è¯¯å¯¹è±¡åˆ—è¡¨
          * [{element: element, message: message},{... ...}]
          * @return Array
          */
@@ -245,7 +245,7 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * ÅĞ¶Ï±íµ¥ÑéÖ¤ÊÇ·ñÍ¨¹ı
+         * åˆ¤æ–­è¡¨å•éªŒè¯æ˜¯å¦é€šè¿‡
          * @return {Boolean}
          */
         isValid: function(){
@@ -253,7 +253,7 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * ºËĞÄÑéÖ¤º¯Êı
+         * æ ¸å¿ƒéªŒè¯å‡½æ•°
          * @private
          */
         _check: function(element){
@@ -262,11 +262,11 @@ KISSY.add("validator", function(S) {
             for(method in rules){
                 var rule = {method: method, parameters: rules[method]} ;
                 try{
-                    //Ö´ĞĞÑéÖ¤
+                    //æ‰§è¡ŒéªŒè¯
                     var result = self.config.methods[method].call(self, element.value, element, rule.parameters);
                     /**
-                     * Ç°ÖÃÅĞ¶Ï
-                     * Ç°ÖÃÌõ¼ş²»Âú×ãÔòÖ±½ÓÌø¹ı¸Ã¹æÔòµÄÑéÖ¤
+                     * å‰ç½®åˆ¤æ–­
+                     * å‰ç½®æ¡ä»¶ä¸æ»¡è¶³åˆ™ç›´æ¥è·³è¿‡è¯¥è§„åˆ™çš„éªŒè¯
                      */
                     if (result == "precondition-failure") {
                         preconditionFailure = true;
@@ -289,13 +289,13 @@ KISSY.add("validator", function(S) {
                 } catch(e){S.log(e)}
             }
             /**
-             * ËùÓĞ¹æÔòµÄÇ°ÖÃÌõ¼ş¶¼²»Âú×ãÊ±Ìø¹ı¸ÃÔªËØµÄÑéÖ¤
+             * æ‰€æœ‰è§„åˆ™çš„å‰ç½®æ¡ä»¶éƒ½ä¸æ»¡è¶³æ—¶è·³è¿‡è¯¥å…ƒç´ çš„éªŒè¯
              */
             //if (preconditionFailure){return;}
             
             //if (objectLength(rules)){
                 /**
-                 * È«²¿¹æÔòÑéÖ¤Í¨¹ı
+                 * å…¨éƒ¨è§„åˆ™éªŒè¯é€šè¿‡
                  */
                 self.successList.push({element:element});
             //}
@@ -376,7 +376,7 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * »ñÈ¡´íÎóĞÅÏ¢¶ÔÏóµÄ°ü¹üÔªËØ
+         * è·å–é”™è¯¯ä¿¡æ¯å¯¹è±¡çš„åŒ…è£¹å…ƒç´ 
          * @private
          * @return HTMLElement
          */
@@ -389,7 +389,7 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * »ñµÃÔªËØ¶ÔÓ¦µÄ´íÎóĞÅÏ¢¶ÔÏó£¨ÎÄ±¾ÈİÆ÷£©
+         * è·å¾—å…ƒç´ å¯¹åº”çš„é”™è¯¯ä¿¡æ¯å¯¹è±¡ï¼ˆæ–‡æœ¬å®¹å™¨ï¼‰
          * @private
          * @return HTMLElement
          */
@@ -403,7 +403,7 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * »ñÈ¡µ±Ç°±íµ¥ÄÚËùÒÔnameÆ¥ÅäµÄÔªËØ
+         * è·å–å½“å‰è¡¨å•å†…æ‰€ä»¥nameåŒ¹é…çš„å…ƒç´ 
          * @private
          */
         _findByName: function(name){
@@ -414,7 +414,7 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * »ñÈ¡ÓÃ»§×Ô¶¨µÄmessageĞÅÏ¢
+         * è·å–ç”¨æˆ·è‡ªå®šçš„messageä¿¡æ¯
          * @private
          */
         _getCustomMessage: function(id, method ) {
@@ -424,7 +424,7 @@ KISSY.add("validator", function(S) {
                 : m[method]);
         },
         /**
-         * »ñÈ¡ĞèÒªÑéÖ¤µÄËùÓĞ±íµ¥ÔªËØ
+         * è·å–éœ€è¦éªŒè¯çš„æ‰€æœ‰è¡¨å•å…ƒç´ 
          * @private
          */
         _getElemts: function(){
@@ -445,9 +445,9 @@ KISSY.add("validator", function(S) {
                     self._isIgnore(_elements[i]) || 
                     cache[_elements[i].name]
                     /**
-                     * ÕâÀïÈç¹û°ÑÃ»ÓĞ¹æÔòµÄÔªËØÒ²¹ıÂËµôµÄ»°£¬
-                     * µ±ÒÀÀµÎªÕæÊ±£¬Èç¹ûÒÑ¾­ÏÔÊ¾ÁË´íÎóĞÅÏ¢£¬»áµ¼ÖÂ´íÎóĞÅÏ¢ÎŞ·¨Òş²Ø£¬
-                     * ÔÚÃ»ÓĞÏëµ«ÆäËü°ì·¨Ç°Ôİ²»¹ıÂË
+                     * è¿™é‡Œå¦‚æœæŠŠæ²¡æœ‰è§„åˆ™çš„å…ƒç´ ä¹Ÿè¿‡æ»¤æ‰çš„è¯ï¼Œ
+                     * å½“ä¾èµ–ä¸ºçœŸæ—¶ï¼Œå¦‚æœå·²ç»æ˜¾ç¤ºäº†é”™è¯¯ä¿¡æ¯ï¼Œä¼šå¯¼è‡´é”™è¯¯ä¿¡æ¯æ— æ³•éšè—ï¼Œ
+                     * åœ¨æ²¡æœ‰æƒ³ä½†å…¶å®ƒåŠæ³•å‰æš‚ä¸è¿‡æ»¤
                      */
                     /* || 
                     !objectLength(self.getRules(_elements[i]))*/) {
@@ -463,9 +463,9 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * ÅĞ¶Ïµ±Ç°ÔªËØÊÇ·ñÒªºöÂÔÑéÖ¤
+         * åˆ¤æ–­å½“å‰å…ƒç´ æ˜¯å¦è¦å¿½ç•¥éªŒè¯
          * @private
-         * TODO ÌáÉıĞÔÄÜ b
+         * TODO æå‡æ€§èƒ½ b
          */
         _isIgnore: function(element){
             var self = this, ignoreList = [] ;
@@ -486,8 +486,8 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * »ñÈ¡°ó¶¨µ½µ±Ç°ÔªËØÉÏµÄËùÓĞÑéÖ¤¹æÔò
-         * @param {Selector | HTMLElement} ±íµ¥ÔªËØ
+         * è·å–ç»‘å®šåˆ°å½“å‰å…ƒç´ ä¸Šçš„æ‰€æœ‰éªŒè¯è§„åˆ™
+         * @param {Selector | HTMLElement} è¡¨å•å…ƒç´ 
          * @private
          */
         getRules: function(element){
@@ -500,7 +500,7 @@ KISSY.add("validator", function(S) {
                 self._getStaicRules(element)
             ) ;
             /**
-             * ÒÀÀµ¹æÔò´¦Àí
+             * ä¾èµ–è§„åˆ™å¤„ç†
              */
             S.each(rules, function(val, prop){
                 if(val == false) {
@@ -531,7 +531,7 @@ KISSY.add("validator", function(S) {
             });
             
             /**
-             * ±£Ö¤requried¹æÔòÔÚ×îÇ°Ãæ
+             * ä¿è¯requriedè§„åˆ™åœ¨æœ€å‰é¢
              */
             if (rules.required) {
                 var param = rules.required;
@@ -588,8 +588,8 @@ KISSY.add("validator", function(S) {
 
     
     /**
-     * ÖØÖÃÄ¬ÈÏÅäÖÃ
-     * @param {Object} config ÅäÖÃĞÅÏ¢
+     * é‡ç½®é»˜è®¤é…ç½®
+     * @param {Object} config é…ç½®ä¿¡æ¯
      * @static
      * @return Validator
      */
@@ -599,11 +599,11 @@ KISSY.add("validator", function(S) {
     }
     
     /**
-     * Ä£°åÌæ»»¹¤¾ß
-     * @param {String} source ÒªÌæ»»µÄÄ£°å
-     * @param {Array} params Êı¾İ
+     * æ¨¡æ¿æ›¿æ¢å·¥å…·
+     * @param {String} source è¦æ›¿æ¢çš„æ¨¡æ¿
+     * @param {Array} params æ•°æ®
      * @static
-     * @return {String} source Ìæ»»ºóµÄÄ£°å
+     * @return {String} source æ›¿æ¢åçš„æ¨¡æ¿
      */
     Validator.format = function(source, params){
         if(arguments.length == 1) 
@@ -625,7 +625,7 @@ KISSY.add("validator", function(S) {
     }
     
     /**
-     * Ìí¼ÓÒ»¸öĞ£ÑéÆ÷ 
+     * æ·»åŠ ä¸€ä¸ªæ ¡éªŒå™¨ 
      * @static
      * @return Validator
      */
@@ -636,7 +636,7 @@ KISSY.add("validator", function(S) {
     }
     
     /**
-     * ÅĞ¶Ï±íµ¥ÔªËØÊÇ·ñÊÇ¿É¹´Ñ¡ÔªËØ
+     * åˆ¤æ–­è¡¨å•å…ƒç´ æ˜¯å¦æ˜¯å¯å‹¾é€‰å…ƒç´ 
      * @return Boolean
      */
     Validator.checkable = function(element){

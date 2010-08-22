@@ -1,5 +1,5 @@
 /**
- * KISSY Validator ÑéÖ¤Æ÷
+ * KISSY Validator éªŒè¯å™¨
  * @author ada <zhj3618@gmail.com>
  * @depends kissy-validator
  */
@@ -43,7 +43,7 @@
     }  
     
     /**
-     * Ñ¡Ìî×Ö¶ÎÑéÖ¤£¬
+     * é€‰å¡«å­—æ®µéªŒè¯ï¼Œ
      * 
      */
     function optional(element){
@@ -51,7 +51,7 @@
     }
     
     /**
-     * ±ØÌî×Ö¶ÎÑéÖ¤
+     * å¿…å¡«å­—æ®µéªŒè¯
      * @param {Sting} value
      * @param {HTMLElement} element
      * @param {Mix} apram 
@@ -59,8 +59,8 @@
      */
     function required(value, element, param){
         /**
-         * ½«×Ö·û´®¡°true¡±ºÍ¡°required¡±×ª»»³É²¼¶ûÕæ
-         * ÓÃÒÔÖ§³ÖÔªËØrequired="true"ºÍrequired="required"Á½ÖÖ×Ô¶¨ÒåÊôĞÔĞÎÊ½
+         * å°†å­—ç¬¦ä¸²â€œtrueâ€å’Œâ€œrequiredâ€è½¬æ¢æˆå¸ƒå°”çœŸ
+         * ç”¨ä»¥æ”¯æŒå…ƒç´ required="true"å’Œrequired="required"ä¸¤ç§è‡ªå®šä¹‰å±æ€§å½¢å¼
          */
         param = param == "true" || param == "required" ? true : param; 
         if ( !depend(param, element) ){
@@ -82,42 +82,42 @@
     
     /**
      * ======================================================
-     * Ìí¼ÓÒ»Ğ©³£¼ûµÄÑéÖ¤Æ÷
+     * æ·»åŠ ä¸€äº›å¸¸è§çš„éªŒè¯å™¨
      * ======================================================
      */
     if(KISSY.Validator) {
         /**
-         * ±ØÌîÏîÑéÖ¤
+         * å¿…å¡«é¡¹éªŒè¯
          */
         KISSY.Validator.add("required", function(value, element, param){ 
             return required(value, element, param);
-        }, "ÇëÊäÈëÄÚÈİ£¡");    
+        }, "è¯·è¾“å…¥å†…å®¹ï¼");    
         
         /**
-         * µç×ÓÓÊÏä¸ñÊ½ÑéÖ¤
+         * ç”µå­é‚®ç®±æ ¼å¼éªŒè¯
          */
         KISSY.Validator.add("email", function(value, element){
             // contributed by Scott Gonzalez: http://projects.scottsplayground.com/email_address_validation/
             return optional(element) || /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i.test(value);
-        }, "ÇëÊäÈëÓĞĞ§µÄEmailµØÖ·£¡");
+        }, "è¯·è¾“å…¥æœ‰æ•ˆçš„Emailåœ°å€ï¼");
         
         /**
-         * rulµØÖ·¸ñÊ½ÑéÖ¤
+         * rulåœ°å€æ ¼å¼éªŒè¯
          */
         KISSY.Validator.add("url", function(value, element){
             // contributed by Scott Gonzalez: http://projects.scottsplayground.com/iri/
             return optional(element) || /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value);
-        }, "ÇëÊäÈëÓĞĞ§µÄrulµØÖ·£¡");
+        }, "è¯·è¾“å…¥æœ‰æ•ˆçš„rulåœ°å€ï¼");
         
         /**
-         * ×î¶Ì×Ö·û´®³¤¶ÈÑéÖ¤
+         * æœ€çŸ­å­—ç¬¦ä¸²é•¿åº¦éªŒè¯
          */
         KISSY.Validator.add("minlength", function(value, element, param){
             return optional(element) || getLength(KISSY.trim(value), element) >= param;
         }, KISSY.Validator.format("Please enter at least {0} characters."));
         
         /**
-         * ×î³¤×Ö·û´®³¤¶ÈÑéÖ¤
+         * æœ€é•¿å­—ç¬¦ä¸²é•¿åº¦éªŒè¯
          */
         KISSY.Validator.add("maxlength", function(value, element, param){
             var length = getLength(KISSY.trim(value), element);
@@ -125,40 +125,40 @@
         }, KISSY.Validator.format("Please enter no more than {0} characters."));
         
         /**
-         * ×Ö·û´®³¤¶È·¶Î§ÑéÖ¤
+         * å­—ç¬¦ä¸²é•¿åº¦èŒƒå›´éªŒè¯
          */
         KISSY.Validator.add("rangelength", function(value, element, param){
             return optional(element) || (value >= param[0] && value <= param[1]);
         }, KISSY.Validator.format("Please enter a value between {0} and {1} characters long."));
         
         /**
-         * ×îĞ¡Êı×ÖÑéÖ¤
+         * æœ€å°æ•°å­—éªŒè¯
          */
         KISSY.Validator.add("min", function(value, element, param){
             return optional(element) || value >= param;
-        }, KISSY.Validator.format("ÇëÊäÈëĞ¡ÓÚµÈÓÚ{0}µÄÊı×Ö£¡"));
+        }, KISSY.Validator.format("è¯·è¾“å…¥å°äºç­‰äº{0}çš„æ•°å­—ï¼"));
         
         /**
-         * ×î´óÊı×ÖÑéÖ¤
+         * æœ€å¤§æ•°å­—éªŒè¯
          */
         KISSY.Validator.add("max", function(value, element, param){
             return optional(element) || value <= param;
-        }, KISSY.Validator.format("ÇëÊäÈë´óÓÚµÈÓÚ{0}µÄÊı×Ö£¡"));
+        }, KISSY.Validator.format("è¯·è¾“å…¥å¤§äºç­‰äº{0}çš„æ•°å­—ï¼"));
         
         /**
-         * ×î´ó·¶Î§ÑéÖ¤
+         * æœ€å¤§èŒƒå›´éªŒè¯
          */
         KISSY.Validator.add("range", function(value, element, param){
             return optional(element) || (value >= param[0] && value <= param[1]);
-        }, KISSY.Validator.format("ÇëÊäÈë½éÓÚ{0}ºÍ{1}Ö®¼äµÄÊı×Ö£¡"));
+        }, KISSY.Validator.format("è¯·è¾“å…¥ä»‹äº{0}å’Œ{1}ä¹‹é—´çš„æ•°å­—ï¼"));
     }
 })();
 /*
-    number: "ÇëÊäÈëÒ»¸öÓĞĞ§µÄÊı×Ö£¡",
-    digits: "ÇëÊäÈëÓĞĞ§µÄÕûÊı£¡",
-    equalTo: "Á½´ÎÊäÈëµÄÄÚÈİ²»ÏàÍ¬£¡",
-    pattern: "ÇëÊäÈëÕıÈ·µÄÄÚÈİ",
-    alpha£º"ÇëÊäÈëÓ¢ÎÄ×ÖÄ¸£¡",
-    mobile£º"ÇëÊäÈëÓĞĞ§µÄÊÖ»úºÅÂë£¡",
-    postcode "ÇëÊäÈëÓĞĞ§µÄÓÊÕş±àÂë£¡",
+    number: "è¯·è¾“å…¥ä¸€ä¸ªæœ‰æ•ˆçš„æ•°å­—ï¼",
+    digits: "è¯·è¾“å…¥æœ‰æ•ˆçš„æ•´æ•°ï¼",
+    equalTo: "ä¸¤æ¬¡è¾“å…¥çš„å†…å®¹ä¸ç›¸åŒï¼",
+    pattern: "è¯·è¾“å…¥æ­£ç¡®çš„å†…å®¹",
+    alphaï¼š"è¯·è¾“å…¥è‹±æ–‡å­—æ¯ï¼",
+    mobileï¼š"è¯·è¾“å…¥æœ‰æ•ˆçš„æ‰‹æœºå·ç ï¼",
+    postcode "è¯·è¾“å…¥æœ‰æ•ˆçš„é‚®æ”¿ç¼–ç ï¼",
 */
