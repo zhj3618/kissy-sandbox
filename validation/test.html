@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="gbk"/>
+<title>Kissy Validation</title>
+<link rel="stylesheet" href="../../kissy/build/cssbase/base-min.css"/>
+<script src="../../kissy/build/packages/kissy.js"></script>
+<script src="validation.js"></script>
+<script src="validation_addon.js"></script>
+<style>
+.hidden {
+    display:none;
+}
+</style>
+</head>
+
+<body>
+<form class="fm" id="fm" method="get" action="">
+		<p>
+			<label for="cname">Name (required, at least 2 characters)</label>
+			<input id="cname" name="name" data-type="required" minlength="2" />
+		<p>
+			<label for="cemail">E-Mail (required)</label>
+			<input id="cemail" name="email" data-type="required email" />
+		</p>
+		<p>
+			<label for="curl">URL (optional)</label>
+			<input id="curl" name="url" value="" required="true" />
+		</p>
+		<p>
+			<label for="ccomment">Your comment (required)</label>
+			<textarea id="ccomment" name="comment" data-type="required email" minlength="60" ></textarea>
+		</p>
+		<p>
+			<input id="age1" name="age" data-type="required" value="1" type="checkbox" />
+			<input id="age2" name="age" data-type="required" value="2" type="checkbox" />
+            <label for="age" class="invalid hidden">请选择年龄！</label>
+		</p>
+		<p>
+			<input class="submit" type="submit" value="Submit"/> <input class="button" type="button" value="check comment" id="ec"/>
+		</p>
+</form>
+<script>
+    KISSY.ready(function(S) {
+        var vali = new S.Validator("#fm",{
+            rules: {
+                curl: {
+                    url: {
+                        depends: function(){
+                            return S.get("#cname").value !== "ada";
+                        }
+                    }
+                }
+            },
+            messages:{
+                ccomment: {                
+                    minlength:"浏览内容不能少于 {0} 字！",
+                    email:"请输入正确的邮箱字地址！",
+                    required:"留言不能为空！"
+                }
+            },
+            //messageWrapper:"DIV"
+            messageElement:"label"
+        });
+        S.Event.on("#ec", "click",function(){
+            vali.validate(S.DOM.get("#ccomment"));
+        });
+
+
+        vali.on("beforeValidate",function(e){
+            //S.log(e.form);
+        });
+        vali.on("validate",function(e){
+            //S.log(this.getInvalid());
+        });
+        vali.on("valid",function(e){
+           //S.log(e.label)
+        });
+        vali.on("invalid",function(e){
+           //S.DOM.insertAfter(e.label,S.DOM.parent(e.element));
+           //S.log()
+        });
+    });
+</script>
+</body>
+</html>
