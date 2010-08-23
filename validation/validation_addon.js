@@ -114,7 +114,7 @@
          */
         KISSY.Validator.add("minlength", function(value, element, param){
             return optional(element) || getLength(KISSY.trim(value), element) >= param;
-        }, KISSY.Validator.format("Please enter at least {0} characters."));
+        }, KISSY.Validator.format("限制为最少{0}字 ！"));
         
         /**
          * 最长字符串长度验证
@@ -122,14 +122,14 @@
         KISSY.Validator.add("maxlength", function(value, element, param){
             var length = getLength(KISSY.trim(value), element);
             return optional(element) || ( length >= param[0] && length <= param[1] );
-        }, KISSY.Validator.format("Please enter no more than {0} characters."));
+        }, KISSY.Validator.format("限制为最多{0}字！"));
         
         /**
          * 字符串长度范围验证
          */
         KISSY.Validator.add("rangelength", function(value, element, param){
             return optional(element) || (value >= param[0] && value <= param[1]);
-        }, KISSY.Validator.format("Please enter a value between {0} and {1} characters long."));
+        }, KISSY.Validator.format("限制为{0}-{1}字！"));
         
         /**
          * 最小数字验证
@@ -151,14 +151,44 @@
         KISSY.Validator.add("range", function(value, element, param){
             return optional(element) || (value >= param[0] && value <= param[1]);
         }, KISSY.Validator.format("请输入介于{0}和{1}之间的数字！"));
+        
+        /**
+         * 数字格式验证
+         */
+        KISSY.Validator.add("number", function(value, element){
+            return optional(element) || /^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/.test(value);
+        }, KISSY.Validator.format("请输入一个有效的数字！"));
+        
+        /**
+         * 整数格式验证
+         */
+        KISSY.Validator.add("digits", function(value, element){
+            return optional(element) || /^\d+$/.test(value);
+        }, KISSY.Validator.format("请输入有效的整数！"));
+        
+        /**
+         * 英文字母格式验证
+         */
+        KISSY.Validator.add("alpha", function(value, element){
+            return optional(element) || /^[a-zA-Z]+$/.test(v);
+        }, KISSY.Validator.format("请输入英文字母！"));
+        
+        /**
+         * 中国手机号码格式验证
+         */
+        KISSY.Validator.add("mobileCN", function(value, element){
+            return optional(element) || /^\+?(86)*0*1[3|5|6|8]\d{9}$/.test(v);
+        }, KISSY.Validator.format("请输入正确的手机号码！"));
+        
+        /**
+         * 中国手机号码格式验证
+         */
+        KISSY.Validator.add("postcodeCN", function(value, element){
+            return optional(element) || /^[1-9]{1}(\d+){5}$/.test(v);
+        }, KISSY.Validator.format("请输入正确的邮政编码！"));
     }
 })();
 /*
-    number: "请输入一个有效的数字！",
-    digits: "请输入有效的整数！",
     equalTo: "两次输入的内容不相同！",
     pattern: "请输入正确的内容",
-    alpha："请输入英文字母！",
-    mobile："请输入有效的手机号码！",
-    postcode "请输入有效的邮政编码！",
 */

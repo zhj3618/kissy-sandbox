@@ -173,6 +173,21 @@ KISSY.add("validator", function(S) {
                 Event.add(self.currentForm, "submit", function(e){
                     if(!self.validate()){
                         e.preventDefault() ;
+                        /**
+                         * auto focus
+                         */
+                        if(self.config.autoFocus && !self.isValid()) {
+                            var _last = self.errorList[0].element ;
+                            S.filter(self.errorList, function(item){
+                                if(item.element === self.lastActive) {
+                                    _last = self.lastActive;
+                                    return ;
+                                }
+                            });
+                            try{
+                                _last.focus();
+                            }catch(e){S.log(e)}
+                        }
                     };
                 });
             }
@@ -206,21 +221,6 @@ KISSY.add("validator", function(S) {
                 self._check(elements[i]);
             }
             
-            /**
-             * auto focus
-             */
-            if(self.config.autoFocus && !self.isValid()) {
-                var _last = self.errorList[0].element ;
-                S.filter(self.errorList, function(item){
-                    if(item.element === self.lastActive) {
-                        _last = self.lastActive;
-                        return ;
-                    }
-                });
-                try{
-                    _last.focus();
-                }catch(e){}
-            }
             
             self.showError(); 
             self.fire(EVENT_VALIDATE);
@@ -465,7 +465,6 @@ KISSY.add("validator", function(S) {
         /**
          * 判断当前元素是否要忽略验证
          * @private
-         * TODO 提升性能 b
          */
         _isIgnore: function(element){
             var self = this, ignoreList = [] ;

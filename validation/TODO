@@ -17,10 +17,13 @@ example:
 TODO：
 	依赖规则的实时校验 p3
 	后台验证 p1
-	相等规则 p1
+	相等规则 p1 
+    <del>支持requried属性</del>
 	pattern属性的支持 p2
 	自定义属性的限制（保证并不是所有规则都能通过自定义属性添加）p2
 	group支持 p1
 	给表单元素动态添加删除验证规则的函数 p2
+    日期格式校验支持参数，如：yyyy-MM-dd
 
 bugfix
+    <del>focusout事件启动验证不通过自动获取焦点导致焦点锁死的问题 p0</del>
