@@ -8,3 +8,5 @@
 Thumb.db
 .project
 .*proj
+.*proj
+.settings
