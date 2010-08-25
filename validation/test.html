@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <title>Kissy Validation</title>
 <link rel="stylesheet" href="../../kissy/build/cssbase/base-min.css"/>
-<script src="../../kissy/build/packages/kissy.js"></script>
+<script src="../../kissy/build/kissy-min.js"></script>
 <script src="validation.js"></script>
 <script src="validation_addon.js"></script>
 <style>
@@ -24,16 +24,24 @@
 			<input id="cemail" name="email" data-type="required email" />
 		</p>
 		<p>
-			<label for="curl">URL (optional)</label>
+			<label for="curl">URL</label>
 			<input id="curl" name="url" value="" required="true" />
+		</p>
+		<p>
+			<label for="cpswd">password</label>
+			<input id="cpswd" name="pswd" value="" required="true" />
+		</p>
+		<p>
+			<label for="cpswd2">repeat password</label>
+			<input id="cpswd2" name="pswd2" value="" required="true" data-type="equalTo:#cpswd" />
 		</p>
 		<p>
 			<label for="ccomment">Your comment (required)</label>
 			<textarea id="ccomment" name="comment" data-type="required email" minlength="60" ></textarea>
 		</p>
 		<p>
-			<input id="age1" name="age" data-type="required" value="1" type="checkbox" />
-			<input id="age2" name="age" data-type="required" value="2" type="checkbox" />
+			<input id="age1" name="age" data-type="required" value="1" type="radio" /><label for="age1">男</label>
+			<input id="age2" name="age" data-type="required" value="2" type="radio" /><label for="age2">女</label>
             <label for="age" class="invalid hidden">请选择年龄！</label>
 		</p>
 		<p>
@@ -50,6 +58,9 @@
                             return S.get("#cname").value !== "ada";
                         }
                     }
+                },
+                cpswd2 : {
+                    equalTo : "#cpswd"
                 }
             },
             messages:{

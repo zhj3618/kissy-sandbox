@@ -137,6 +137,11 @@ KISSY.add("validator", function(S) {
             if(!self.config.isLazy){
                 var focusTypes = {"text":true,"password":true,"file":true,"textarea":true,"select":true},
                     clickType = {"radio":true,"checkbox":true,"select":true,"option":true} ;
+                    
+                /**
+                 * 绑定表单的click事件
+                 * 当满足一些基本条件后进行实时校验
+                 */
                 Event.add(self.currentForm, "click", function(e){
                     var target = e.target ;
                     if(clickType[target.type] && target.name && !target.disabled && self.submitted[target.name]) {
@@ -149,12 +154,21 @@ KISSY.add("validator", function(S) {
                         self.validate(target);
                     }                    
                 });
+                
+                /**
+                 * 绑定表单的focusout keyup事件
+                 * 当满足一些基本条件后进行实时校验
+                 */
                 Event.add(self.currentForm, "focusout keyup", function(e){
                     var target = e.target ;
                     if(focusTypes[target.type] && target.name && !target.disabled && self.submitted[target.name]) {
                         self.validate(target);
                     }
                 });
+                
+                /**
+                 * 绑定表单的focusin事件
+                 */
                 Event.add(self.currentForm, "focusin", function(e){
                     var target = e.target ;                    
                     if(focusTypes[target.type] && target.name && !target.disabled) {
@@ -222,7 +236,7 @@ KISSY.add("validator", function(S) {
             }
             
             
-            self.showError(); 
+            self.showMessage(); 
             self.fire(EVENT_VALIDATE);
             return self.isValid() ;
         },
@@ -257,8 +271,7 @@ KISSY.add("validator", function(S) {
          * @private
          */
         _check: function(element){
-            var self = this ;
-            var rules = self.getRules(element), preconditionFailure = false;
+            var self = this , rules = self.getRules(element);
             for(method in rules){
                 var rule = {method: method, parameters: rules[method]} ;
                 try{
@@ -269,10 +282,8 @@ KISSY.add("validator", function(S) {
                      * 前置条件不满足则直接跳过该规则的验证
                      */
                     if (result == "precondition-failure") {
-                        preconditionFailure = true;
                         continue;
                     }
-                    preconditionFailure = false;  
                     if(!result) {                  
                             var message = self._getCustomMessage(element.id, method) || defaultConfig.messages[method] || self.config.defaultErrorMessage, theregex = /\$?\{(\d+)\}/g;
                             if (typeof message == "function") {
@@ -288,32 +299,22 @@ KISSY.add("validator", function(S) {
                     }
                 } catch(e){S.log(e)}
             }
-            /**
-             * 所有规则的前置条件都不满足时跳过该元素的验证
-             */
-            //if (preconditionFailure){return;}
-            
-            //if (objectLength(rules)){
-                /**
-                 * 全部规则验证通过
-                 */
-                self.successList.push({element:element});
-            //}
+            self.successList.push({element:element});
         },
         
-        showError: function(errors){
+        showMessage: function(messages){
             var self = this ;
-            if(errors) {
+            if(messages) {
                 self.errorList = [];
-                for ( var name in errors ) {
+                for ( var name in messages ) {
                     self.errorList.push({
-                        message: errors[name],
+                        message: messages[name],
                         element: self._findByName[0]
                     });
                 }
                 // remove items from success list
                 self.successList = S.filter(self.successList, function(element) {
-                    return !(element.element.name in errors);
+                    return !(element.element.name in messages);
                 });
             }
             for ( var i = 0; self.errorList[i]; i++ ) {
@@ -331,7 +332,7 @@ KISSY.add("validator", function(S) {
         },   
         
         _showLabel: function(element, message){
-            var self = this, label = this._getMessageForElement(element);
+            var self = this, label = this._getLabelForElement(element);
             if(label.length){
                 self._showInvalid(label);
                 if(Dom.attr(label, "generated")) {
@@ -358,8 +359,13 @@ KISSY.add("validator", function(S) {
 
         },
         
+        /**
+         * 隐藏那些通过验证元素对应的信息
+         * @private
+         * @param {HTMLElement} element
+         */
         _hideValid: function(element){   
-            var self = this, label = self._getMessageForElement(element);
+            var self = this, label = self._getLabelForElement(element);
             Dom.addClass(element, self.config.validClass);
             Dom.removeClass(element, self.config.invalidClass); 
             if(label){
@@ -368,6 +374,11 @@ KISSY.add("validator", function(S) {
             self.fire(EVENT_VALID, {label:label}) ;
         },
         
+        /**
+         * 显示那些未通过验证元素对应的信息
+         * @private
+         * 
+         */
         _showInvalid: function(label){  
             var self = this;
             Dom.removeClass(label, self.config.validClass);
@@ -393,7 +404,7 @@ KISSY.add("validator", function(S) {
          * @private
          * @return HTMLElement
          */
-        _getMessageForElement: function(element){
+        _getLabelForElement: function(element){
             var self = this, selector = self.config.messageElement + "." +self.config.invalidClass,
             co = self.messageContainer || document.body,
             label = Dom.filter(selector, function(ele){

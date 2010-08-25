@@ -78,7 +78,9 @@
             default:
                 return KISSY.trim(value).length > 0;
         }
-    }  
+    } 
+    
+    var equalToCache = {} ;
     
     /**
      * ======================================================
@@ -91,7 +93,20 @@
          */
         KISSY.Validator.add("required", function(value, element, param){ 
             return required(value, element, param);
-        }, "请输入内容！");    
+        }, "请输入内容！");
+        
+        KISSY.Validator.add("equalTo", function(value, element, param){ 
+            if(!equalToCache[element]) {equalToCache[element] = {} ;}
+            
+            var self = this, target = KISSY.get(param);
+            if(target && !equalToCache[element][target]) {
+                KISSY.Event.add(target, "keyup", function(){
+                    self.validate(element);
+                });
+                equalToCache[element][target] = true ;
+            }
+            return target ? value == target.value : true ;
+        }, "请输入相同的内容！");    
         
         /**
          * 电子邮箱格式验证
@@ -102,7 +117,7 @@
         }, "请输入有效的Email地址！");
         
         /**
-         * rul地址格式验证
+         * url地址格式验证
          */
         KISSY.Validator.add("url", function(value, element){
             // contributed by Scott Gonzalez: http://projects.scottsplayground.com/iri/
