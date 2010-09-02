@@ -1,0 +1,36 @@
+legend {
+	font-size:14px;
+	font-weight:bold;
+	padding:5px;
+}
+.lb {
+	float:left;
+	width:75px;
+	text-align:right;
+	padding-right:15px;
+}
+ul.form-item li{
+	padding:5px;
+}
+label.invalid {
+	color:#ff5500;
+	padding-left:5px;
+}
+
+.msg {
+	padding:3px 10px 3px 90px;
+	overflow:hidden;
+	height:21px;
+}
+#message div{
+	padding:2px 5px;
+	overflow:hidden;
+	height:23px;
+}
+.msg .invalid ,
+#message div .invalid{
+	float:left;
+	padding:2px;
+	border: 1px solid #ff0000;
+	background-color:#ffaa00;
+}

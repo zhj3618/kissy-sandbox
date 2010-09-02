@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY Validator - messageContainer</title>
+    <link rel="stylesheet" href="http://kissyteam.github.com/kissy/build/cssbase/base-min.css"/>
+    <link rel="stylesheet" href="style.css"/>
+    <script src="http://kissyteam.github.com/kissy/build/kissy.js"></script>
+    <script src="../validation.js"></script>
+    <script src="../validation_addon.js"></script>
+</head>
+<body>
+    <form method="post" action="#" id="testForm">
+        <fieldset> 
+			<legend> KISSY Validator - messageContainer</legend> 
+            <ul class="form-item">
+			<li> 
+				<label class="lb">姓名 *</label> 
+				<input name="name" id="J_Name" /> 
+			</li> 
+			<li> 
+				<label class="lb">年龄 *</label> 
+				<input name="age" id="J_Age" /> 
+			</li> 
+			<li> 
+				<label class="lb">性别 *</label> 
+				<input type="radio" name="sex" id="J_Sex" /> 男
+				<input type="radio" name="sex" /> 女
+			</li> 
+			<li> 
+				<label class="lb">国籍 *</label> 
+				<select name="nationality" id="J_Nationality"> 
+					<option></option> 
+					<option value="China">中国</option> 
+					<option value="USA">美国</option> 
+					<option value="JP">日本</option> 
+				</select> 
+			</li>
+			<li> 
+				<label class="lb">手机</label> 
+				<input type="text" name="mobile" id="J_Mobile"/> 
+			</li> 
+			<li> 
+				<label class="lb">E-Mail</label> 
+				<input type="text" name="email" id="J_Email" /> 
+			</li> 
+			<li> 
+				<label class="lb">主页</label> 
+				<input type="text" name="homepage" id="J_Homepage" /> 
+			</li> 
+ 
+			<li> 
+				<label class="lb" style="vertical-align:top;">备注 *</label> 
+				<textarea name="memo" id="J_Memo" rows="3" cols="40"></textarea> 
+			</li> 
+			
+			<li class="button-row"> 
+				<button type="submit">提交</button> 
+				<button type="reset">重置</button> 
+			</li> 
+            </ul>
+		</fieldset> 
+    </form>
+    <div id="message">
+    </div>
+    <script type="text/javascript">
+    <!--
+         KISSY.ready(function(S) {
+            var vali = new S.Validator("#testForm",{
+                messageElement:"p",
+                messageWrapper:"div",
+                messageContainer:"#message"
+            });
+            vali.addRule("#J_Name","required","姓名不能为空！");
+            vali.addRule("#J_Age","required","年龄不能为空！");
+            vali.addRule("#J_Age","digits","年龄必须是整数！");
+            vali.addRule("#J_Sex","required","请选择在性别");
+            vali.addRule("#J_Age","range",[18,100],"年龄必须在{0}岁到{1}岁之间！");
+            vali.addRule("#J_Nationality","required","请选择在国籍！");
+            vali.addRule("#J_Mobile","mobile_cn");
+            vali.addRule("#J_Email","email");
+            vali.addRule("#J_Homepage","url");
+            vali.addRule("#J_Memo","required","备注信息不能为空！");
+            vali.addRule("#J_Memo","maxlength",50,"备注信息最多不能超过{0}字");
+         });
+    //-->
+    </script>
+</body>
+</html>

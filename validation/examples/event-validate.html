@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY Validator - validate</title>
+    <link rel="stylesheet" href="http://kissyteam.github.com/kissy/build/cssbase/base-min.css"/>
+    <link rel="stylesheet" href="style.css"/>
+    <script src="http://kissyteam.github.com/kissy/build/kissy.js"></script>
+    <script src="../validation.js"></script>
+    <script src="../validation_addon.js"></script>
+</head>
+<body>
+    <form method="post" action="#" id="testForm">
+        <fieldset> 
+			<legend> KISSY Validator - data-type</legend> 
+            <ul class="form-item">
+			<li> 
+				<label class="lb">姓名 *</label> 
+				<input name="name" data-type="required" /> 
+			</li> 
+			<li> 
+				<label class="lb">年龄 *</label> 
+				<input name="age" max="100" min="18" data-type="required digits" /> 
+			</li> 
+			<li> 
+				<label class="lb">性别 *</label> 
+				<input type="radio" name="sex" data-type="required" /> 男
+				<input type="radio" name="sex" data-type="required" /> 女
+			</li> 
+			<li> 
+				<label class="lb">国籍 *</label> 
+				<select name="nationality"  data-type="required"> 
+					<option></option> 
+					<option value="China">中国</option> 
+					<option value="USA">美国</option> 
+					<option value="JP">日本</option> 
+				</select> 
+			</li>
+			<li> 
+				<label class="lb">手机</label> 
+				<input type="text" name="mobile" data-type="mobile_cn"/> 
+			</li> 
+			<li> 
+				<label class="lb">E-Mail</label> 
+				<input type="text" name="email" data-type="email"/> 
+			</li> 
+			<li> 
+				<label class="lb">主页</label> 
+				<input type="text" name="homepage" data-type="url" /> 
+			</li> 
+ 
+			<li> 
+				<label class="lb" style="vertical-align:top;">备注 *</label> 
+				<textarea name="memo" rows="3" cols="40"  data-type="required" maxlength="50"></textarea> 
+			</li> 
+			
+			<li class="button-row"> 
+				<button type="submit">提交</button> 
+				<button type="reset">重置</button> 
+			</li> 
+            </ul>
+		</fieldset> 
+    </form>
+    <script type="text/javascript">
+    <!--
+         KISSY.ready(function(S) {
+             var vali = new S.Validator("#testForm");
+             
+             vali.on("validate", function(e){
+                var status = this.isValid() ? "通过" : "失败"
+                alert("表单验证" + status);
+             });
+         });
+    //-->
+    </script>
+</body>
+</html>
