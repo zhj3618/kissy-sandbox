@@ -4,36 +4,35 @@
 <meta charset="utf-8"/>
 <title>Kissy Validation</title>
 <link rel="stylesheet" href="http://kissyteam.github.com/kissy/build/cssbase/base-min.css"/>
-<script src="http://kissyteam.github.com/kissy/build/kissy-min.js"></script>
+<script src="http://kissyteam.github.com/kissy/build/kissy.js"></script>
 <script src="validation.js"></script>
 <script src="validation_addon.js"></script>
-<style>
-.hidden {
-    display:none;
-}
-</style>
 </head>
 
 <body>
 <form class="fm" id="fm" method="get" action="">
 		<p>
 			<label for="cname">Name (required, at least 2 characters)</label>
-			<input id="cname" name="name" data-type="required" minlength="2" />
+			<input id="cname" name="name" />
 		<p>
 			<label for="cemail">E-Mail (required)</label>
-			<input id="cemail" name="email" data-type="required email" />
+			<input id="cemail" name="email" data-type="required:true:电子邮件必须填写！ email:true:错误的电子邮件地址！" />
 		</p>
 		<p>
 			<label for="curl">URL</label>
-			<input id="curl" name="url" value="" required="true" />
+			<input id="curl" name="url" value="" url="url" />
 		</p>
 		<p>
 			<label for="cpswd">password</label>
-			<input id="cpswd" name="pswd" value="" required="true" />
+			<input type="password" id="cpswd" name="pswd" value="" required="required" />
 		</p>
 		<p>
 			<label for="cpswd2">repeat password</label>
+<<<<<<< HEAD
 			<input id="cpswd2" name="pswd2" value="" required="true" data-type="equalTo:#cpswd:请保证两个密码一致！" />
+=======
+			<input type="password" id="cpswd2" name="pswd2" value="" required="required" data-type="equalTo:#cpswd" />
+>>>>>>> origin/master
 		</p>
 		<p>
 			<label for="ccomment">Your comment (required)</label>
@@ -42,7 +41,6 @@
 		<p>
 			<input id="age1" name="age" data-type="required" value="1" type="radio" /><label for="age1">男</label>
 			<input id="age2" name="age" data-type="required" value="2" type="radio" /><label for="age2">女</label>
-            <label for="age" class="invalid hidden">请选择年龄！</label>
 		</p>
 		<p>
 			<input class="submit" type="submit" value="Submit"/> <input class="button" type="button" value="check comment" id="ec"/>
@@ -52,13 +50,6 @@
     KISSY.ready(function(S) {
         var vali = new S.Validator("#fm",{
             rules: {
-                curl: {
-                    url: {
-                        depends: function(){
-                            return S.get("#cname").value !== "ada";
-                        }
-                    }
-                },
                 cpswd2 : {
                     equalTo : "#cpswd"
                 }
@@ -69,14 +60,14 @@
                     email:"请输入正确的邮箱字地址！",
                     required:"留言不能为空！"
                 }
-            },
-            //messageWrapper:"DIV"
-            messageElement:"label"
+            }
         });
         S.Event.on("#ec", "click",function(){
             vali.validate(S.DOM.get("#ccomment"));
         });
-
+        vali.addRule("#cname","minlength","5","要求姓名至少为{0}个字");
+        vali.addRule("#cname","maxlength","10","姓名最多允许{0}个字");
+        vali.addRule("#cname","required","姓名为必填字段");
 
         vali.on("beforeValidate",function(e){
             //S.log(e.form);

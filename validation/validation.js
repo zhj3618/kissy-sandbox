@@ -6,114 +6,147 @@
  * @depends     kissy-core, kissy-dom, kissy-event
  */
 KISSY.add("validator", function(S) {
-        var Event = S.Event, Dom = S.DOM ,
-        EVENT_BEFORE_VALIDATE = "beforeValidate" ,
-        EVENT_VALID           = "valid" ,
-        EVENT_INVALID         = "invalid" ,
-        EVENT_VALIDATE        = "validate" ,
-        defaultConfig = {            
-            /**
-             * 是否在表单提交时验证
-             * @type {Boolean}
-             */
-            onSubmit: true,
-            
-            /**
-             * 验证前最后一个获取焦点的元素或第一个验证失败的元素自动获取焦点
-             * @type {Boolean}
-             */
-            autoFocus: true,
-            
-            /**
-             * 在元素获取焦点时是否隐藏验证信息
-             * 注：不能与autoFocus参数同时使用，否则无效
-             * @type {Boolen}
-             */
-            focusCleanup: false,
-            
-            /**
-             * 是否为懒验证模式，懒验证模式下，当元素值改变后不会触发验证
-             * @type {Boolean}
-             */
-            isLazy: false,
-            
-            /**
-             * 忽略列表，忽略列表中的元素将跳过验证
-             * @type {Array}
-             */
-            ignoreList: [],
-            
-            /**
-             * 元素验证通过后的样式标记
-             * @type {String}
-             */
-            validClass: "valid",
-            
-            /**
-             * 元素验证不通过后的样式标记
-             * @type {String}
-             */
-            invalidClass: "invalid",
-            
-            /**
-             * 提示信息元素
-             * @type {String}
-             */
-            messageElement: "LABEL",
-            
-            /**
-             * 提示信息元素外再包裹一层元素
-             * @type {String}
-             */
-            messageWrapper: null,
-            
-            /**
-             * 将提示信息元素放在一个区域集中显示
-             * @type {String}
-             */
-            messageContainer: null,
-            
-            /**
-             * 默认错误信息
-             * 当验证规格没有对应的错误反馈信息时，将显示这条信息。
-             */
-            defaultErrorMessage: "内容格式不正确！",
+    var Event = S.Event, Dom = S.DOM ,
+    EVENT_BEFORE_VALIDATE = "beforeValidate" ,
+    EVENT_VALID           = "valid" ,
+    EVENT_INVALID         = "invalid" ,
+    EVENT_VALIDATE        = "validate" ,
+    HIDDEN_CLASS_NAME     = "S-hidden" ,
+    defaultConfig = {            
+        /**
+         * 是否在表单提交时验证
+         * @type {Boolean}
+         */
+        onSubmit: true,
         
-            /**
-             * 验证规则
-             * @type {Object}
-             */
-            rules: {},
-            
-            /**
-             * 验证函数
-             * @type {Object}
-             */
-            methods: {}, 
-                
-            /**
-             * 默认提示信息
-             * @type {Object}
-             */
-            messages: {}
-        },
+        /**
+         * 验证前最后一个获取焦点的元素或第一个验证失败的元素自动获取焦点
+         * @type {Boolean}
+         */
+        autoFocus: true,
         
-        objectLength = function(o){            
-            var count = 0;
-            for (var i in o)
-                count++;
-            return count;
+        /**
+         * 在元素获取焦点时是否隐藏验证信息
+         * 注：不能与autoFocus参数同时使用，否则无效
+         * @type {Boolen}
+         */
+        focusCleanup: false,
+        
+        /**
+         * 是否为懒验证模式，懒验证模式下，当元素值改变后不会触发验证
+         * @type {Boolean}
+         */
+        isLazy: false,
+        
+        /**
+         * 忽略列表，忽略列表中的元素将跳过验证
+         * @type {Array}
+         */
+        ignoreList: [],
+        
+        /**
+         * 元素验证通过后的样式标记
+         * @type {String}
+         */
+        validClass: "valid",
+        
+        /**
+         * 元素验证不通过后的样式标记
+         * @type {String}
+         */
+        invalidClass: "invalid",
+        
+        /**
+         * 提示信息元素
+         * @type {String}
+         */
+        messageElement: "LABEL",
+        
+        /**
+         * 提示信息元素外再包裹一层元素
+         * @type {String}
+         */
+        messageWrapper: null,
+        
+        /**
+         * 将提示信息元素放在一个区域集中显示
+         * @type {String}
+         */
+        messageContainer: null,
+        
+        /**
+         * 默认错误信息
+         * 当验证规格没有对应的错误反馈信息时，将显示这条信息。
+         */
+        defaultErrorMessage: "内容格式不正确！",
+    
+        /**
+         * 验证规则
+         * @type {Object}
+         */
+        rules: {},
+        
+        /**
+         * 验证函数
+         * @type {Object}
+         */
+        methods: {}, 
+            
+        /**
+         * 默认提示信息
+         * @type {Object}
+         */
+        messages: {}
+    },
+    
+    objectLength = function(o){            
+        var count = 0;
+        for (var i in o)
+            count++;
+        return count;
+    },
+    
+    /**
+     * 自定义属性限制
+     * 这有这些自定义属性才会被识别
+     */
+    attrLimit = {
+        min: true,
+        max: true,
+        range: true,
+        minlength: true,
+        maxlength: true,
+        rangelength: true,
+        //required: true, //webkit内核浏览器的内置requried验证通过前不会触发表单的onsubmit事件！
+        pattern: true
+    },
+    
+    getId = function(el){
+        if(!el){return ;}
+        var id = el.id ;
+        if(!id){
+            id = el.id = S.guid("S_VALIDADOR_ELEMENT") ;
         }
+        return id ;
+    };
+    
+    /**
+     * .HIDDEN_CLASS_NAME{display:none;}}插入到页面head，备用！
+     */
+    S.ready(function(){
+        Dom.addStyleSheet("." + HIDDEN_CLASS_NAME + "{display:none;}");
+    });
 
     /**
-     * Validator
+     * KISSY Validator
+     * @class Validator
      * @constructor
      */
     function Validator(form, config) {
         if (!(this instanceof arguments.callee)) {
             return new arguments.callee(form, config);
         }
-        this.currentForm = S.get("form");
+        this.currentForm = S.get(form);
         this.config = S.merge(defaultConfig, config || {});
         this._init();
     }
@@ -135,8 +168,9 @@ KISSY.add("validator", function(S) {
              * event delegation
              */
             if(!self.config.isLazy){
-                var focusTypes = {"text":true,"password":true,"file":true,"textarea":true,"select":true},
-                    clickType = {"radio":true,"checkbox":true,"select":true,"option":true} ;
+                var focusKeyTypes = {"text":true,"password":true,"file":true,"textarea":true,"select-one":true,"select-multiple":true},
+                    clickType = {"radio":true,"checkbox":true},
+                    changeType = {"select-one":true,"select-multiple":true}
                     
                 /**
                  * 绑定表单的click事件
@@ -144,15 +178,28 @@ KISSY.add("validator", function(S) {
                  */
                 Event.add(self.currentForm, "click", function(e){
                     var target = e.target ;
-                    if(clickType[target.type] && target.name && !target.disabled && self.submitted[target.name]) {
-                        /**
-                         * 对checkbox和radio做特殊处理，获取同name的第一个元素
-                         */
-                        if(S.Validator.checkable(target)){
-                            target = self._findByName(target.name)[0];
+                    if(target.name && !target.disabled && self.submitted[target.name]) {
+                            if(clickType[target.type]) {
+                            /**
+                             * 对checkbox和radio做特殊处理，获取同name的第一个元素
+                             */
+                            if(S.Validator.checkable(target)){
+                                target = self._findByName(target.name)[0];
+                            }
+                            self.validate(target);
+                        } else if(changeType[target.type]){
+                            /**
+                             * 如果是下拉框元素，则在点击是绑定change事件，
+                             * 并通过自定义属性data-event-change标记是否已经绑定过change事件
+                             */
+                            if(!Dom.attr(target,"data-event-change")){
+                                Dom.attr(target,"data-event-change","true");
+                                Event.add(target,"change",function(){
+                                    self.validate(target);
+                                });
+                            }
                         }
-                        self.validate(target);
-                    }                    
+                    } 
                 });
                 
                 /**
@@ -161,7 +208,7 @@ KISSY.add("validator", function(S) {
                  */
                 Event.add(self.currentForm, "focusout keyup", function(e){
                     var target = e.target ;
-                    if(focusTypes[target.type] && target.name && !target.disabled && self.submitted[target.name]) {
+                    if(focusKeyTypes[target.type] && target.name && !target.disabled && self.submitted[target.name]) {
                         self.validate(target);
                     }
                 });
@@ -171,7 +218,7 @@ KISSY.add("validator", function(S) {
                  */
                 Event.add(self.currentForm, "focusin", function(e){
                     var target = e.target ;                    
-                    if(focusTypes[target.type] && target.name && !target.disabled) {
+                    if(focusKeyTypes[target.type] && target.name && !target.disabled) {
                         self.lastActive = target ;
                         if(self.config.focusCleanup && !self.config.autoFocus) {
                             self._hideValid(target);
@@ -181,10 +228,18 @@ KISSY.add("validator", function(S) {
             }
             
             /**
+             * 绑定到表单reset事件
+             * TODO 去掉元素上的样式和隐藏提示信息
+             */
+            Event.add(self.currentForm, "reset", function(e){
+                self.reset();
+                return true ;
+            });
+            /**
              * form submit Event handle
              */
             if (self.currentForm && self.config.onSubmit) {
-                Event.add(self.currentForm, "submit", function(e){
+                Event.add(self.currentForm, "submit", function(e){ 
                     if(!self.validate()){
                         e.preventDefault() ;
                         /**
@@ -213,20 +268,22 @@ KISSY.add("validator", function(S) {
          * 执行验证
          * @param {Selector | HTMLElement} elements (optional) 
          * 要验证的元素，不指定就验证所有元素
+         * @return Boolean
          */
         validate: function(elements){          
-            var self = this ;
+            var self = this, isFormValid = false ;
             
             self.reset();
-            
-            if(self.fire(EVENT_BEFORE_VALIDATE, {form: self.currentForm}) === false){
-                return false ;
-            };
             
             elements = S.query(elements) ;
             if(!elements.length) {
                 elements = self._getElemts();
+                isFormValid = true ;
             }
+            
+            if(isFormValid && self.fire(EVENT_BEFORE_VALIDATE, {form: self.currentForm}) === false){
+                return false ;
+            };
             /**
              * 对每个需要验证的元素进行验证
              */
@@ -237,7 +294,9 @@ KISSY.add("validator", function(S) {
             
             
             self.showMessage(); 
-            self.fire(EVENT_VALIDATE);
+            if(isFormValid) {
+                self.fire(EVENT_VALIDATE, {form: self.currentForm});
+            }
             return self.isValid() ;
         },
         
@@ -271,7 +330,7 @@ KISSY.add("validator", function(S) {
          * @private
          */
         _check: function(element){
-            var self = this , rules = self.getRules(element);
+            var self = this , rules = self._getRules(element), _id = getId(element);
             for(method in rules){
                 var rule = {method: method, parameters: rules[method]} ;
                 try{
@@ -285,12 +344,12 @@ KISSY.add("validator", function(S) {
                         continue;
                     }
                     if(!result) {                  
-                            var message = self._getCustomMessage(element.id, method) || defaultConfig.messages[method] || self.config.defaultErrorMessage, theregex = /\$?\{(\d+)\}/g;
-                            if (typeof message == "function") {
+                            var message = self._getCustomMessage(_id, method) || defaultConfig.messages[method] || self.config.defaultErrorMessage, theregex = /\$?\{(\d+)\}/g;
+                            if (S.isFunction(message)) {
                                 message = message.call(self, rule.parameters, element);
                             } else if (theregex.test(message)) {
                                 message = KISSY.Validator.format(message.replace(theregex, '{$1}'), rule.parameters);
-                            }           
+                            }   
                             self.errorList.push({
                                 message: message,
                                 element: element
@@ -302,6 +361,11 @@ KISSY.add("validator", function(S) {
             self.successList.push({element:element});
         },
         
+        /**
+         * 显示验证信息
+         * @param {Object} messages
+         * @public
+         */
         showMessage: function(messages){
             var self = this ;
             if(messages) {
@@ -317,6 +381,7 @@ KISSY.add("validator", function(S) {
                     return !(element.element.name in messages);
                 });
             }
+            
             for ( var i = 0; self.errorList[i]; i++ ) {
                 var error = self.errorList[i];
                 Dom.addClass(error.element, self.config.invalidClass);   
@@ -333,26 +398,33 @@ KISSY.add("validator", function(S) {
         
         _showLabel: function(element, message){
             var self = this, label = this._getLabelForElement(element);
-            if(label.length){
+            if(label){
                 self._showInvalid(label);
                 if(Dom.attr(label, "generated")) {
                     Dom.html(label, message ,false);
                 }
-                label = self._getMessageElementWrapper(label)[0] ;
             } else {
                 label = Dom.create("<" + self.config.messageElement + ">", { "for": element.name, "generated": "generated", "class": self.config.invalidClass});
                 label.innerHTML = message ;
                 Dom.html(label, message ,false);
                 if(self.config.messageWrapper){
                     var _labelInner = label ;
-                    label = Dom.create("<" + self.config.messageWrapper + ">");
+                    if(self.config.messageWrapper.indexOf("<") == 0) {
+                        label = Dom.create(self.config.messageWrapper);
+                    } else {
+                        label = Dom.create("<" + self.config.messageWrapper + ">");
+                    }
                     label.appendChild(_labelInner);
-                    _labelInner = null;
                 }
                 if(self.messageContainer) {
                     self.messageContainer.appendChild(label);
                 } else {
-                    Dom.insertAfter(label, element) ;
+                    element.parentNode.appendChild(label);
+                    //Dom.insertAfter(label, element) ;
+                }
+                if(_labelInner) {
+                    label = _labelInner ;
+                    _labelInner = null ;
                 }
             }
             self.fire(EVENT_INVALID,{label:label, element:element})
@@ -369,9 +441,9 @@ KISSY.add("validator", function(S) {
             Dom.addClass(element, self.config.validClass);
             Dom.removeClass(element, self.config.invalidClass); 
             if(label){
-                Dom.addClass(self._getMessageElementWrapper(label), "hidden");
+                Dom.addClass(self._getMessageElementWrapper(label), HIDDEN_CLASS_NAME);
             }
-            self.fire(EVENT_VALID, {label:label}) ;
+            self.fire(EVENT_VALID, {label:label,element:element}) ;
         },
         
         /**
@@ -383,7 +455,7 @@ KISSY.add("validator", function(S) {
             var self = this;
             Dom.removeClass(label, self.config.validClass);
             Dom.addClass(label, self.config.invalidClass);
-            Dom.removeClass(self._getMessageElementWrapper(label),"hidden");
+            Dom.removeClass(self._getMessageElementWrapper(label), HIDDEN_CLASS_NAME);
         },
         
         /**
@@ -394,7 +466,7 @@ KISSY.add("validator", function(S) {
         _getMessageElementWrapper: function(label){
             var self = this;
             if(self.config.messageWrapper) {
-                label = Dom.parent(label, self.config.messageWrapper) ;
+                label = Dom.parent(label) ;
             }
             return label ;
         },
@@ -403,6 +475,7 @@ KISSY.add("validator", function(S) {
          * 获得元素对应的错误信息对象（文本容器）
          * @private
          * @return HTMLElement
+         * TODO 性能提升
          */
         _getLabelForElement: function(element){
             var self = this, selector = self.config.messageElement + "." +self.config.invalidClass,
@@ -410,7 +483,7 @@ KISSY.add("validator", function(S) {
             label = Dom.filter(selector, function(ele){
                 return Dom.contains(co, ele) && Dom.attr(ele, "for") == element.name ;             
             });
-            return label ;
+            return label[0] ;
         },
         
         /**
@@ -428,12 +501,13 @@ KISSY.add("validator", function(S) {
          * 获取用户自定的message信息
          * @private
          */
-        _getCustomMessage: function(id, method ) {
+        _getCustomMessage: function(id, method) {
             var m = this.config.messages[id];
             return m && (m.constructor == String
                 ? m
                 : m[method]);
         },
+        
         /**
          * 获取需要验证的所有表单元素
          * @private
@@ -500,7 +574,7 @@ KISSY.add("validator", function(S) {
          * @param {Selector | HTMLElement} 表单元素
          * @private
          */
-        getRules: function(element){
+        _getRules: function(element){
             element = S.get(element) ;
             if(!element){return {}};
             var self = this, rules = {} ;
@@ -550,16 +624,57 @@ KISSY.add("validator", function(S) {
             }
             return rules
         },
+        
         /**
-         * 
+         * 添加规则
+         */
+        addRule: function(element, rule, value, message) {
+            var self = this, allRules = self.config.rules, allMessages = self.config.messages ;
+            if(arguments.length <= 3) {
+                message = value ;
+                value = true ;
+            }
+            var _id = getId(S.get(element));
+            if(_id && rule){
+                allRules[_id] = allRules[_id] ? allRules[_id] : {} ;
+                allRules[_id][rule] = value ;
+                if(message) {
+                    allMessages[_id] = allMessages[_id] ? allMessages[_id] : {} ;
+                    allMessages[_id][rule] = message ;
+                }
+            }
+        },
+        
+        /**
+         * 获取通过data-type属性绑定的验证规则
+         * data-type属性支持xxx:xxx:xxx型式；规则名:规则值:规则提示信息，示例：
+         * data-type="requried:#J_NeedInvoice[checked=true]:请填写发票抬头" 
+         * //当需要发票的checkbox被选中时，要求发票抬头字段必填
          * @private
          */
         _getDateTypeRules: function(element){
-            var self = this, rules = {};
+            var self = this, rules = {}, defVaule = true ;
             var dt = Dom.attr(element, "data-type");
             dt && S.each(dt.split(' '), function(item) {
-                if (item in self.config.methods) {
-                    rules[item] = true ;
+                var nm = item.toLowerCase().split(":");
+                if (nm[0] in self.config.methods) {
+                    /**
+                     * 数组化data-type中的字符串
+                     */
+                    //rules[nm[0]] = nm[1] ? eval("(" + nm[1] + ")") : defVaule ;
+                    if(nm[1] && nm[1].indexOf("[") == 0 && nm[1].indexOf("]")==nm[1].length - 1) {
+                        nm[1] = nm[1].slice(1,-1).split(',');
+                    }
+                    rules[nm[0]] = nm[1] ? nm[1] : defVaule ;
+                    
+                    //如果指定了自定义信息
+                    if(nm[2]){
+                        var _id = getId(element);
+                        if(!self.config.messages[_id]){
+                            self.config.messages[_id] = {} ;
+                        }
+                        self.config.messages[_id][nm[0]] = nm[2] ;
+                    }
                 }
             });
             
@@ -567,14 +682,14 @@ KISSY.add("validator", function(S) {
         },
         
         /**
-         * 
+         * 获取自定义属性规则，仅支持sttrLimit对象中定义的属性
          * @private
          */
         _getAttributeRules: function(element){
             var self = this, rules = {};            
-            for (method in self.config.methods) {
+            for (method in /*self.config.methods*/attrLimit) {
                 var value = Dom.attr(element, method);
-                if (value) {
+                if (self.config.methods[method] && value) {
                     rules[method] = value;
                 }
             }
@@ -584,18 +699,25 @@ KISSY.add("validator", function(S) {
             }
             return rules;
         },
+        
         /**
-         * 
+         * 获取当前元素的静态验证规则
          * @private
          */
         _getStaicRules: function(element){
-            var self = this, rules = {} ;   
-            rules = self.config.rules[element.id] ? self.config.rules[element.id] : {} ;
+            var _id = getId(element);
+            var self = this, rules = self.config.rules[_id] ;   
+            rules = rules ? rules : {} ;
             return rules ;
         }
         
     });
 
+    /**
+     * =========================================================================
+     * 一些工具方法
+     * =========================================================================
+     */
     
     /**
      * 重置默认配置
