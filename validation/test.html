@@ -1,82 +1,155 @@
+
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8"/>
 <title>Kissy Validation</title>
-<link rel="stylesheet" href="http://kissyteam.github.com/kissy/build/cssbase/base-min.css"/>
+<link rel="stylesheet" href="qunit/qunit.css"/>
+<script src="qunit/qunit.js"></script>
 <script src="http://kissyteam.github.com/kissy/build/kissy.js"></script>
 <script src="validation.js"></script>
 <script src="validation_addon.js"></script>
 </head>
 
 <body>
-<form class="fm" id="fm" method="get" action="">
-		<p>
-			<label for="cname">Name (required, at least 2 characters)</label>
-			<input id="cname" name="name" />
-		<p>
-			<label for="cemail">E-Mail (required)</label>
-			<input id="cemail" name="email" data-type="required:true:电子邮件必须填写！ email:true:错误的电子邮件地址！" />
-		</p>
-		<p>
-			<label for="curl">URL</label>
-			<input id="curl" name="url" value="" url="url" />
-		</p>
-		<p>
-			<label for="cpswd">password</label>
-			<input type="password" id="cpswd" name="pswd" value="" required="required" />
-		</p>
-		<p>
-			<label for="cpswd2">repeat password</label>
-			<input type="password" id="cpswd2" name="pswd2" value="" required="required" data-type="equalTo:#cpswd" />
-		</p>
-		<p>
-			<label for="ccomment">Your comment (required)</label>
-			<textarea id="ccomment" name="comment" data-type="required email" minlength="60" ></textarea>
-		</p>
-		<p>
-			<input id="age1" name="age" data-type="required" value="1" type="radio" /><label for="age1">男</label>
-			<input id="age2" name="age" data-type="required" value="2" type="radio" /><label for="age2">女</label>
-		</p>
-		<p>
-			<input class="submit" type="submit" value="Submit"/> <input class="button" type="button" value="check comment" id="ec"/>
-		</p>
+<h1 id="qunit-header">Kissy Validation Test</h1>
+<h2 id="qunit-banner"></h2>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<form class="fm" id="fm" method="get" action="" style="display:none;">
+<!-- requried start -->
+    <input id="empty" name="empty" data-type="required" value=""/>
+    <input id="unempty" name="unempty" data-type="required" value="unempty"/>
+    <input id="whiteSpace" name="whiteSpace" data-type="required" value=" "/>
+    <input type="checkbox" id="dchk" value="" name="dchk" />
+
+    <input id="dRequired1" name="dRequired1" value=""/>
+    <input id="dRequired2" name="dRequired2" value=""/>
+
+    <input type="checkbox" id="checkA" name="check" value="1" data-type="required" />
+    <input type="checkbox" id="checkB" name="check" value="2" />
+    <input type="checkbox" id="checkC" name="check" value="3" />
+
+    <input type="radio" id="radioA" name="radio" value="1" data-type="required" />
+    <input type="radio" id="radioB" name="radio" value="2" />
+    <input type="radio" id="radioC" name="radio" value="3" />
+
+    <select id="selectEmpty" name="selectEmpty" data-type="required">
+        <option value="" selected="selected"></option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+    </select>
+<!-- requried end -->
+
+<!-- email start -->
+    <input id="trueEmail" name="trueEmail" data-type="email" value="zhj3618@gmail.com"/>
+    <input id="nonBeforeAt" name="nonBeforeAt" data-type="email" value="@gmail.com"/>
+    <input id="nonAfterDot" name="nonAfterDot" data-type="email" value="zhj3618@gmail."/>
+    <input id="mulDotBeforeAt" name="mulDotBeforeAt" data-type="email" value="zhj.36.18@gmail.com"/>
+    <input id="mulDotAfterAt" name="mulDotAfterAt" data-type="email" value="zhj3618@gmail.com.cn.org"/>
+    <input id="mulAt" name="mulAt" data-type="email" value="zhj@3618@gmail.com"/>
+    <input id="unicodeEmail" name="unicodeEmail" data-type="email" value="阿大@gmail.com"/>
+    <input id="underLineEmail1" name="underLineEmail1" data-type="email" value="zhj_3618@gmail.com"/>
+    <input id="underLineEmail2" name="underLineEmail2" data-type="email" value="zhj3618@gmail_com.com"/>
+    <input id="longEmailSuffix" name="longEmailSuffix" data-type="email" value="zhj3618@gmail.commm"/>
+
+    <input id="speEmail1" name="speEmail1" data-type="email" value="zhj,3618@gmail.com"/>
+    <input id="speEmail2" name="speEmail2" data-type="email" value="zhj/3618@gmail.com"/>
+    <input id="speEmail3" name="speEmail3" data-type="email" value="zhj%3618@gmail.com"/>
+    <input id="speEmail4" name="speEmail4" data-type="email" value="zhj^3618@gmail.com"/>
+    <input id="speEmail5" name="speEmail5" data-type="email" value="zhj&3618@gmail.com"/>
+    <input id="speEmail6" name="speEmail6" data-type="email" value="zhj*3618@gmail.com"/>
+    <input id="speEmail7" name="speEmail7" data-type="email" value="zhj$3618@gmail.com"/>
+    <input id="speEmail8" name="speEmail8" data-type="email" value="zhj#3618@gmail.com"/>
+    <input id="speEmail9" name="speEmail9" data-type="email" value="zhj-3618@gmail.com"/>
+    <input id="speEmail10" name="speEmail10" data-type="email" value="zhj=3618@gmail.com"/>
+    <input id="speEmail11" name="speEmail11" data-type="email" value="zhj+3618@gmail.com"/>
+    <input id="speEmail12" name="speEmail12" data-type="email" value="zhj|3618@gmail.com"/>
+    <input id="speEmail13" name="speEmail13" data-type="email" value="zhj\3618@gmail.com"/>
+    <input id="speEmail14" name="speEmail14" data-type="email" value="zhj~3618@gmail.com"/>
+    <input id="speEmail15" name="speEmail15" data-type="email" value="zhj`3618@gmail.com"/>
+    <input id="speEmail16" name="speEmail16" data-type="email" value="zhj?3618@gmail.com"/>
+    <input id="speEmail17" name="speEmail17" data-type="email" value="zhj[3618@gmail.com"/>
+    <input id="speEmail18" name="speEmail18" data-type="email" value="zhj]3618@gmail.com"/>
+    <input id="speEmail19" name="speEmail19" data-type="email" value="zhj{3618@gmail.com"/>
+    <input id="speEmail20" name="speEmail20" data-type="email" value="zhj}3618@gmail.com"/>
+    <input id="speEmail21" name="speEmail21" data-type="email" value="zhj'3618@gmail.com"/>
+    <input id="speEmail22" name="speEmail22" data-type="email" value='zhj"3618@gmail.com'/>
+    <input id="speEmail23" name="speEmail23" data-type="email" value="zhj:3618@gmail.com"/>
+    <input id="speEmail24" name="speEmail24" data-type="email" value="zhj;3618@gmail.com"/>
+    <input id="speEmail25" name="speEmail25" data-type="email" value="zhj(3618@gmail.com"/>
+    <input id="speEmail26" name="speEmail26" data-type="email" value="zhj)3618@gmail.com"/>
+    <input id="speEmail27" name="speEmail27" data-type="email" value="zhj!3618@gmail.com"/>
+<!-- email end -->
+
 </form>
 <script>
     KISSY.ready(function(S) {
-        var vali = new S.Validator("#fm",{
-            rules: {
-                cpswd2 : {
-                    equalTo : "#cpswd"
-                }
-            },
-            messages:{
-                ccomment: {                
-                    minlength:"浏览内容不能少于 {0} 字！",
-                    email:"请输入正确的邮箱字地址！",
-                    required:"留言不能为空！"
-                }
+        var v = new S.Validator("fm");
+        module("内置规则测试");
+        test("required", function() {
+            var requiredTest = function(value,e,p){
+                return v.config.methods["required"].call(v,value,e,p);
             }
-        });
-        S.Event.on("#ec", "click",function(){
-            vali.validate(S.DOM.get("#ccomment"));
-        });
-        vali.addRule("#cname","minlength","5","要求姓名至少为{0}个字");
-        vali.addRule("#cname","maxlength","10","姓名最多允许{0}个字");
-        vali.addRule("#cname","required","姓名为必填字段");
+            expect(8);
+            ok(!requiredTest(S.get("#empty").value, S.get("#empty")),"空内容验证");
+            ok(!requiredTest(S.get("#whiteSpace").value, S.get("#whiteSpace")),"空格验证");
+            ok(requiredTest(S.get("#unempty").value, S.get("#unempty")),"非空内容验证");
 
-        vali.on("beforeValidate",function(e){
-            //S.log(e.form);
+            ok(requiredTest(S.get("#dRequired1").value, S.get("#dRequired1"),function(){
+                return S.get("#dchk").checked == true ;
+            }),"依赖验证，依赖不成立");
+            ok(!requiredTest(S.get("#dRequired2").value, S.get("#dRequired2"),function(){
+                return S.get("#dchk").checked == false ;
+            }),"依赖验证，依赖成立");
+            
+            ok(!requiredTest(S.get("#checkA").value, S.get("#checkA")),"checkbox验证");
+            ok(!requiredTest(S.get("#radioA").value, S.get("#radioA")),"radio验证");
+            ok(!requiredTest(S.get("#selectEmpty").value, S.get("#selectEmpty")),"select验证");
         });
-        vali.on("validate",function(e){
-            //S.log(this.getInvalid());
-        });
-        vali.on("valid",function(e){
-           //S.log(e.label)
-        });
-        vali.on("invalid",function(e){
-           //S.DOM.insertAfter(e.label,S.DOM.parent(e.element));
-           //S.log()
+        test("email",function(){            
+            var emailTest = function(value,e){
+                return v.config.methods["email"].call(v,value,e);
+            }
+            expect(37);
+            ok(emailTest(S.get("#trueEmail").value, S.get("#trueEmail")),"普通email格式：zhj3618@gmail.com");
+            ok(!emailTest(S.get("#nonBeforeAt").value, S.get("#nonBeforeAt")),"@gmail.com");
+            ok(!emailTest(S.get("#nonAfterDot").value, S.get("#nonAfterDot")),"zhj3618@gmail.");
+            ok(emailTest(S.get("#mulDotBeforeAt").value, S.get("#mulDotBeforeAt")),"zhj.36.18@gmail.com");
+            ok(emailTest(S.get("#mulDotAfterAt").value, S.get("#mulDotAfterAt")),"zhj3618@gmail.com.cn.org");
+            ok(!emailTest(S.get("#mulAt").value, S.get("#mulAt")),"zhj@3618@gmail.com 不允许多个@");
+            ok(!emailTest(S.get("#unicodeEmail").value, S.get("#unicodeEmail")),"阿大@gmail.com 不允许出现中文");
+            ok(emailTest(S.get("#underLineEmail1").value, S.get("#underLineEmail1")),"zhj_3618@gmail.com @后面允许出现“_”");//@后面允许出现“_”
+            ok(!emailTest(S.get("#underLineEmail2").value, S.get("#underLineEmail2")),"zhj3618@gmail_com.com @后面禁止出现“_”");//@后面禁止出现“_”
+            ok(!emailTest(S.get("#longEmailSuffix").value, S.get("#longEmailSuffix")),"zhj3618@gmail.commm 域名后缀最长4位");//域名后缀最长4位
+            //特殊字符验证
+            ok(!emailTest(S.get("#speEmail1").value, S.get("#speEmail1")),"特殊字符：,");
+            ok(!emailTest(S.get("#speEmail2").value, S.get("#speEmail2")),"特殊字符：/");
+            ok(!emailTest(S.get("#speEmail3").value, S.get("#speEmail3")),"特殊字符：%");
+            ok(!emailTest(S.get("#speEmail4").value, S.get("#speEmail4")),"特殊字符：^");
+            ok(!emailTest(S.get("#speEmail5").value, S.get("#speEmail5")),"特殊字符：&");
+            ok(!emailTest(S.get("#speEmail6").value, S.get("#speEmail6")),"特殊字符：*");
+            ok(!emailTest(S.get("#speEmail7").value, S.get("#speEmail7")),"特殊字符：$");
+            ok(!emailTest(S.get("#speEmail8").value, S.get("#speEmail8")),"特殊字符：#");
+            ok(emailTest(S.get("#speEmail9").value, S.get("#speEmail9")),"特殊字符：-");
+            ok(!emailTest(S.get("#speEmail10").value, S.get("#speEmail10")),"特殊字符：=");
+            ok(!emailTest(S.get("#speEmail11").value, S.get("#speEmail11")),"特殊字符：+");
+            ok(!emailTest(S.get("#speEmail12").value, S.get("#speEmail12")),"特殊字符：|");
+            ok(!emailTest(S.get("#speEmail13").value, S.get("#speEmail13")),"特殊字符：\\");
+            ok(!emailTest(S.get("#speEmail14").value, S.get("#speEmail14")),"特殊字符：~");
+            ok(!emailTest(S.get("#speEmail15").value, S.get("#speEmail15")),"特殊字符：`");
+            ok(!emailTest(S.get("#speEmail16").value, S.get("#speEmail16")),"特殊字符：?");
+            ok(!emailTest(S.get("#speEmail17").value, S.get("#speEmail17")),"特殊字符：[");
+            ok(!emailTest(S.get("#speEmail18").value, S.get("#speEmail18")),"特殊字符：]");
+            ok(!emailTest(S.get("#speEmail19").value, S.get("#speEmail19")),"特殊字符：{");
+            ok(!emailTest(S.get("#speEmail20").value, S.get("#speEmail20")),"特殊字符：'}");
+            ok(!emailTest(S.get("#speEmail21").value, S.get("#speEmail21")),"特殊字符：'");
+            ok(!emailTest(S.get("#speEmail22").value, S.get("#speEmail22")),"特殊字符：\"");
+            ok(!emailTest(S.get("#speEmail23").value, S.get("#speEmail23")),"特殊字符：:");
+            ok(!emailTest(S.get("#speEmail24").value, S.get("#speEmail24")),"特殊字符：;");
+            ok(!emailTest(S.get("#speEmail25").value, S.get("#speEmail25")),"特殊字符：(");
+            ok(!emailTest(S.get("#speEmail26").value, S.get("#speEmail26")),"特殊字符：)");
+            ok(!emailTest(S.get("#speEmail27").value, S.get("#speEmail27")),"特殊字符：!");
         });
     });
 </script>
